@@ -16,7 +16,7 @@ class CreateTransactionEventsTable extends Migration
         Schema::create('transaction_events', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('member_id');
-            $table->foreign('member_id')->references('id')->on('members')
+            $table->foreign('member_id')->references('id')->on('event_members')
                 ->onDelete('cascade')->onUpdate('cascade');
 
             $table->unsignedBigInteger('event_id');
