@@ -1,5 +1,6 @@
 <?php
 
+use App\EventType;
 use Illuminate\Database\Seeder;
 
 class EventTypeSeeder extends Seeder
@@ -11,6 +12,11 @@ class EventTypeSeeder extends Seeder
      */
     public function run()
     {
-        //
+        $faker = Faker\Factory::create();
+        for ($j = 0; $j < 10; $j++) {
+            EventType::insert([
+                "name" => $faker->name
+            ]);
+        }
     }
 }
