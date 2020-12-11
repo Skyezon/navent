@@ -15,7 +15,7 @@ class ProductSeeder extends Seeder
         $faker = Faker\Factory::create();
         for ($j = 0; $j < 20; $j++) {
             Product::insert([
-                "name" => $faker->name,
+                "name" => $faker->word,
                 "price" => $faker->numberBetween(1000, 300000),
                 "rating" => $faker->randomFloat(1.0, 5.0),
                 "stock" => $faker->numberBetween(0, 100),

@@ -25,7 +25,7 @@ class EventSeeder extends Seeder
             Event::insert([
                 "organizer_id" => rand(1, 3),
                 "type_id" => rand(1, 10),
-                "name" => $faker->name,
+                "name" => $faker->word,
                 "date_start" => $now,
                 "date_end" => $now->addDay(),
                 'image' => $faker->imageUrl(),
