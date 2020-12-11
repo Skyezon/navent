@@ -26,3 +26,4 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/products', 'ProductController@index');
 Route::get('/product/add', 'ProductController@addForm');
 Route::post('/product/add', 'ProductController@store');
+Route::post('/product/{id}/delete', 'ProductController@destroy');

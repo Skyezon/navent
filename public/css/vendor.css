@@ -1,0 +1,256 @@
+@font-face {
+    font-family: Poppins-Bold;
+    src: url("../fonts/Poppins-SemiBold.ttf");
+}
+
+@font-face {
+    font-family: Poppins-Regular;
+    src: url("../fonts/Poppins-Regular.ttf");
+}
+
+.navbar-brand {
+    font-family: Poppins-Bold;
+    font-size: 1.8rem;
+}
+
+.nav-link {
+    font-family: Poppins-Regular;
+    font-size: 1rem;
+}
+
+.add-product-title {
+    font-size: 3.5rem;
+    font-weight: bold;
+}
+
+.form__group {
+    position: relative;
+    padding: 15px 0 0;
+    margin-top: 10px;
+    width: 100%;
+    margin: 1rem 0;
+}
+
+input[type="file"] {
+    border: none;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    border-radius: 2rem;
+}
+
+#image::-webkit-file-upload-button {
+    background-color: transparent;
+    color: #6ce779;
+    border: none;
+    outline: 1px solid #6ce779;
+    margin: 1rem 1rem;
+    font-size: 1.2rem;
+}
+
+option {
+    color: #000;
+}
+
+.form__field {
+    font-family: inherit;
+    width: 100%;
+    border: 0;
+    border-bottom: 2px solid #9b9b9b;
+    outline: 0;
+    font-size: 1.3rem;
+    color: #fff;
+    padding: 7px 0;
+    background: transparent;
+    transition: border-color 0.2s;
+}
+.form__field::placeholder {
+    color: transparent;
+}
+.form__field:placeholder-shown ~ .form__label {
+    font-size: 1.3rem;
+    cursor: text;
+    top: 20px;
+}
+.form__label {
+    position: absolute;
+    top: 0;
+    display: block;
+    transition: 0.2s;
+    font-size: 1rem;
+    color: #9b9b9b;
+}
+.form__field:focus {
+    padding-bottom: 6px;
+    font-weight: 700;
+    border-width: 3px;
+    border-image-slice: 1;
+}
+.form__field:focus ~ .form__label {
+    position: absolute;
+    top: 0;
+    display: block;
+    transition: 0.2s;
+    font-size: 1rem;
+    color: #6ce779;
+    font-weight: 700;
+}
+s .form__field:required,
+.form__field:invalid {
+    box-shadow: none;
+}
+
+.submit-btn {
+    background-color: transparent;
+    color: #6ce779;
+    border: 1px solid #6ce779;
+    font-size: 1.4rem;
+    font-weight: bold;
+    border-radius: 0.5rem;
+}
+
+.txt-green {
+    color: #6ce779;
+}
+
+.add-product-container {
+    border: 2px solid rgba(82, 82, 82, 0.5);
+    border-radius: 2rem;
+    padding: 2rem;
+    margin: 2rem 10rem;
+}
+
+.card-container {
+    display: grid;
+    grid-template-columns: auto auto auto;
+}
+
+.card-container > .card {
+    margin: 2rem;
+    width: 18rem;
+    background-color: #161b22;
+}
+.card-type {
+    color: #6ce779;
+    border: 2px solid #6ce779;
+    background-color: transparent;
+    border-radius: 2rem;
+    padding: 0.3rem 1rem;
+}
+.card-type:hover {
+    text-decoration: none;
+    color: #42a84c;
+    border: 2px solid #42a84c;
+}
+
+.card-title {
+    font-size: 1.5rem;
+    max-width: 7ch;
+}
+
+.card-body {
+    font-size: 1rem;
+    display: flex;
+    flex-direction: row;
+}
+
+.card-text-price {
+    margin-top: 1rem;
+}
+
+.card-body-right {
+    margin-left: 1.5rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.card-body-left > .d-inline > .fa-star {
+    font-size: 1.2rem;
+    color: #ffc200;
+}
+
+.prod-delete {
+    color: #ff7b72;
+    border: 2px solid #ff7b72;
+    border-radius: 2rem;
+    padding: 0 1rem;
+    font-size: 1.5rem;
+}
+.prod-delete:hover {
+    color: #ce5d55;
+    border: 2px solid #ce5d55;
+}
+
+.prod-edit {
+    color: #ffa657;
+    border: 2px solid #ffa657;
+    border-radius: 2rem;
+    padding: 0 1rem;
+    font-size: 1.5rem;
+    margin: 1rem 0;
+}
+
+.prod-edit:hover {
+    color: #ec8a35;
+    border: 2px solid #ec8a35;
+}
+
+.collapse-product {
+    width: 60vw;
+    z-index: 99;
+    background-color: inherit;
+}
+
+.prod-header {
+    z-index: 1;
+}
+
+.modal {
+    color: #161b22;
+}
+
+.products-title {
+    font-size: 3rem;
+    margin: 2rem 0;
+}
+
+.page-link {
+    background-color: transparent;
+    border: transparent;
+    text-decoration: none;
+    color: #42a84c;
+    padding: 0.2rem 1rem;
+}
+
+.page-link:hover {
+    background-color: transparent;
+    color: #42a84c;
+}
+.pagination {
+    border-radius: 1rem;
+    border: 2px solid #42a84c;
+}
+
+.page-item {
+    color: #42a84c;
+    background-color: transparent;
+    font-size: 1.7rem;
+}
+
+.active > .page-link {
+    color: white !important;
+    background-color: #42a84c !important;
+}
+
+span[class="page-link"] {
+    background-color: transparent !important;
+    color: white !important;
+}
+
+a[rel="prev"] {
+    border-right: 2px solid #42a84c;
+}
+
+a[rel="next"] {
+    border-left: 2px solid #42a84c;
+}

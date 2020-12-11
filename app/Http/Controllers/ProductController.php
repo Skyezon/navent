@@ -16,7 +16,11 @@ class ProductController extends Controller
      */
     public function index()
     {
-        return view('product');
+        //TODO Add filter by vendor id by auth
+        $products = Product::selectRaw("products.*, product_types.name AS type_name, product_types.id AS type_id")
+            ->join("product_types", "product_types.id", "products.type_id")
+            ->paginate(9);
+        return view('product', compact('products'));
     }
 
     public function addForm()
@@ -45,7 +49,6 @@ class ProductController extends Controller
         $file = $request->file('image');
         $now = Carbon::now();
         $filename = $request->name . "_" . $now->getTimestamp() . "." . $file->getClientOriginalExtension();
-        dd($filename);
         $file->move(public_path() . '/uploads/image/product', $filename);
         $filename = '/uploads/image/product/' . $filename;
 
@@ -103,8 +106,14 @@ class ProductController extends Controller
      * @param  \App\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Product $product)
+    public function destroy(Request $request, $id)
     {
-        //
+        $product = Product::where('id', $id)->first();
+        $path = "/uploads/image/product/";
+        if (substr($product->image, 0, strlen($path)) == $path) {
+            unlink(public_path() . $product->image);
+        }
+        $product->delete();
+        return redirect()->intended('/products')->with("message", "Success Deleted Products!");
     }
 }

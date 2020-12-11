@@ -6,11 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Navent</title>
     <link href="/css/app.css" rel="stylesheet">
+    <link href="/css/vendor.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
     <script src="/js/app.js"></script>
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg">
+    <nav class="navbar nav navbar-expand-lg">
         <a class="navbar-brand text-light font-weight-bold" href="#">Navent</a>
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
             <ul class="navbar-nav">
