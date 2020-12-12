@@ -15,7 +15,7 @@ class EventTypeSeeder extends Seeder
         $faker = Faker\Factory::create();
         for ($j = 0; $j < 10; $j++) {
             EventType::insert([
-                "name" => $faker->name
+                "name" => $faker->word
             ]);
         }
     }

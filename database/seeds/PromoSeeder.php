@@ -15,7 +15,7 @@ class PromoSeeder extends Seeder
         $faker = Faker\Factory::create();
         for ($j = 0; $j < 4; $j++) {
             Promo::insert([
-                "code" => $faker->name,
+                "code" => $faker->regexify('([A-Z]{3}[0-9]{2})'),
                 "discount" => $faker->numberBetween(10, 100)
             ]);
         }

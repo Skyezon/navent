@@ -15,7 +15,7 @@ class ProductTypeSeeder extends Seeder
         $faker = Faker\Factory::create();
         for ($j = 0; $j < 10; $j++) {
             ProductType::insert([
-                "name" => $faker->name
+                "name" => $faker->word
             ]);
         }
     }
