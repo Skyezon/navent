@@ -6,6 +6,13 @@
     {{ session()->get('message') }}
 </div>
 @endif
+
+@error('quantity')
+<div class="alert alert-danger alert-dismissible">
+    <a class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    {{ $message }}
+</div>
+@enderror
 <div class="products-title text-center">My <span class="txt-green">Products</span>
 </div>
 <div class="container card-container">
@@ -57,8 +64,13 @@
                 </div>
             </div>
         </div>
+        @php
+        $value = isset($product->quantity) ? $product->quantity: null;
+        $text = $value != null ? "Update Cart": "Add to Cart";
+        $qty = $value != null ? "In Cart (".$value.")" : null;
+        @endphp
         <button type="button" class="btn submit-btn" data-toggle="modal" data-target="#product-modal-{{$product->id}}">
-            See Description
+            See Details {{$qty}}
         </button>
         <div class="modal fade" id="product-modal-{{$product->id}}" tabindex="-1" role="dialog" aria-hidden="true">
             <div class="modal-dialog" role="document">
@@ -70,8 +82,18 @@
                         </button>
                     </div>
                     <div class="modal-body">
+                        <b>Price: {{$product->price}}</b>
                         <div><b>Product description:</b></div>
+                        <div><b>{{$product->stock}}</b> Stock Left</div>
                         {{$product->description}}
+                        <br /><br />
+                        <form action="cart/product/{{$product->id}}" method="POST">
+                            <div>Number of Products:</div>
+                            {{ csrf_field() }}
+                            <input type="number" value="{{$value}}" name="quantity">
+                            <br /><br />
+                            <button type="submit" class="btn btn-success">{{$text}}</button>
+                        </form>
                     </div>
                 </div>
             </div>
