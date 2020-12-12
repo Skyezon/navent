@@ -83,9 +83,11 @@ class ProductController extends Controller
      * @param  \App\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function edit(Product $product)
+    public function editForm($id)
     {
-        //
+        $product = Product::where('id', $id)->first();
+        $productTypes = ProductType::all();
+        return view('product-add', compact('productTypes', 'product', 'id'));
     }
 
     /**
@@ -95,9 +97,37 @@ class ProductController extends Controller
      * @param  \App\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Product $product)
+    public function update(Request $request, $id)
     {
-        //
+        $rules = [
+            'name' => 'required|min:5',
+            'price' => 'required|numeric|min:1000',
+            'stock' => 'required|min:1',
+            'desc' => 'required|min:10',
+            'type' => 'required',
+            'image' => 'nullable|mimes:jpg,png,jpeg'
+        ];
+        $request->validate($rules);
+        $file = $request->file('image');
+        $product = Product::where('id', $id)->first();
+        $product->name = $request->name;
+        $product->price = $request->price;
+        $product->stock = $request->stock;
+        $product->description = $request->desc;
+        $product->type_id = $request->type;
+
+        if ($file != null) {
+            $filename = $request->name . "." . $file->getClientOriginalExtension();
+            $path = "/uploads/image/product/";
+            if (substr($product->image, 0, strlen($path)) == $path) {
+                unlink(public_path() . $product->image);
+            }
+            $file->move(public_path() . '/uploads/product', $filename);
+            $product->image = '/uploads/product/' . $filename;
+        }
+        $product->save();
+
+        return redirect()->intended('/products');
     }
 
     /**
