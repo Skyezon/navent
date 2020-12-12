@@ -34,7 +34,7 @@ class CartController extends Controller
     {
         $product = Product::where('id', $id)->first();
         $rules = [
-            'quantity' => 'required|min:0|lte:' . $product->stock
+            'quantity' => 'required|min:1|lte:' . $product->stock
         ];
         $request->validate($rules);
 

@@ -20,7 +20,7 @@
                     <a class="nav-link text-light" href="/products">Products</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-light" href="#">Pricing</a>
+                    <a class="nav-link text-light" href="/cart">Cart</a>
                 </li>
             </ul>
         </div>

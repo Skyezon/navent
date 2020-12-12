@@ -264,10 +264,53 @@ a:hover {
     text-decoration: none;
 }
 
-.btn-checkout {
-    background-color: #42a84c;
-    border-radius: 1rem;
-    padding: 0 2rem;
-    font-size: 1.8rem;
-    color: white;
+.line {
+    border: 1px solid rgb(34, 34, 34);
+}
+.cart-image {
+    width: 10vw;
+    height: 20vh;
+    margin-right: 2rem;
+}
+
+.cart-title {
+    font-size: 2rem;
+    font-weight: bold;
+}
+.cart-container {
+    font-size: 1.5rem;
+    padding-top: 5rem;
+}
+
+.cart-left {
+    margin-right: 10rem;
+}
+
+.cart-right {
+    padding: 2rem;
+    width: 50vw;
+    height: max-content;
+    border: 2px solid rgba(82, 82, 82, 0.5);
+    border-radius: 0.3rem;
+}
+
+.checkout-btn {
+    width: 40vw;
+}
+
+.cart-not-found {
+    width: 85vh;
+    height: 40vh;
+    background-image: url("../assets/cart-not-found.png");
+    background-size: cover;
+}
+
+.cart-title {
+    font-size: 3rem;
+    margin-bottom: 2rem;
+}
+
+.cart-desc {
+    font-size: 1.5rem;
+    margin-top: 2rem;
 }

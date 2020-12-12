@@ -87,6 +87,9 @@
                         <div><b>{{$product->stock}}</b> Stock Left</div>
                         {{$product->description}}
                         <br /><br />
+                        @if($product->stock == 0)
+                        <div class="text-danger">Sorry, this product is out of stock</div>
+                        @else
                         <form action="cart/product/{{$product->id}}" method="POST">
                             <div>Number of Products:</div>
                             {{ csrf_field() }}
@@ -94,6 +97,7 @@
                             <br /><br />
                             <button type="submit" class="btn btn-success">{{$text}}</button>
                         </form>
+                        @endif
                     </div>
                 </div>
             </div>
