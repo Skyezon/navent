@@ -23,7 +23,9 @@
             <div class="card-body-right">
                 <div class="d-flex flex-column">
                     <button class="btn d-flex flex-row prod-edit justify-content-center">
-                        Edit
+                        <a href="/product/{{$product->id}}">
+                            Edit
+                        </a>
                     </button>
                     <button class="btn d-flex flex-row prod-delete" data-toggle="modal" data-target="#product-delete-modal-{{$product->id}}">
                         Delete
