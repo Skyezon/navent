@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Cart;
 use App\Product;
 use App\ProductType;
 use Carbon\Carbon;
@@ -20,6 +21,18 @@ class ProductController extends Controller
         $products = Product::selectRaw("products.*, product_types.name AS type_name, product_types.id AS type_id")
             ->join("product_types", "product_types.id", "products.type_id")
             ->paginate(9);
+
+        //TODO Add filter by vendor id by auth
+        $carts = Cart::where('organizer_id', '1')
+            ->get();
+        foreach ($products as $product) {
+            foreach ($carts as $cart) {
+                if ($cart->product_id == $product->id) {
+                    $product->quantity = $cart->quantity;
+                    break;
+                }
+            }
+        }
         return view('product', compact('products'));
     }
 

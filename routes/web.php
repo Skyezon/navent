@@ -29,3 +29,9 @@ Route::post('/product/add', 'ProductController@store');
 Route::get('/product/{id}', 'ProductController@editForm');
 Route::post('/product/{id}', 'ProductController@update');
 Route::post('/product/{id}/delete', 'ProductController@destroy');
+
+Route::post('/cart/product/{id}', 'CartController@store');
+//TODO add by auth token
+Route::get('/cart', 'CartController@index');
+Route::post('/cart/checkout', 'TransactionProductController@checkout');
+Route::get('/transaction', 'TransactionProductController@index');

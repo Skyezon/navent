@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Cart;
+use App\Product;
 use Illuminate\Http\Request;
 
 class CartController extends Controller
@@ -14,17 +15,13 @@ class CartController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        //TODO add by id
+        $carts = Cart::selectRaw("products.*, carts.*, vendors.name AS vendor_name")
+            ->where('organizer_id', 1)
+            ->join('products', 'products.id', 'carts.product_id')
+            ->join('vendors', 'vendors.id', 'products.vendor_id')
+            ->get();
+        return view('cart', compact('carts'));
     }
 
     /**
@@ -33,9 +30,21 @@ class CartController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, $id)
     {
-        //
+        $product = Product::where('id', $id)->first();
+        $rules = [
+            'quantity' => 'required|min:1|lte:' . $product->stock
+        ];
+        $request->validate($rules);
+
+        //TODO add organizer id by auth
+        Cart::insert([
+            "organizer_id" => 1,
+            "product_id" => $id,
+            "quantity" => $request->quantity
+        ]);
+        return redirect()->intended('/products')->with("message", "Success Added Product to Cart!");
     }
 
     /**
