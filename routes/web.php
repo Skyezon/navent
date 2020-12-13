@@ -34,3 +34,4 @@ Route::post('/cart/product/{id}', 'CartController@store');
 //TODO add by auth token
 Route::get('/cart', 'CartController@index');
 Route::post('/cart/checkout', 'TransactionProductController@checkout');
+Route::get('/transaction', 'TransactionProductController@index');

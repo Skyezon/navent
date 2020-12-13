@@ -22,6 +22,9 @@
                 <li class="nav-item">
                     <a class="nav-link text-light" href="/cart">Cart</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link text-light" href="/transaction">Transactions</a>
+                </li>
             </ul>
         </div>
     </nav>
