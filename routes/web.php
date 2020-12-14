@@ -35,3 +35,8 @@ Route::post('/cart/product/{id}', 'CartController@store');
 Route::get('/cart', 'CartController@index');
 Route::post('/cart/checkout', 'TransactionProductController@checkout');
 Route::get('/transaction', 'TransactionProductController@index');
+
+Route::get('/promo', 'PromoController@index');
+Route::get('/promo/edit/{id}', 'PromoController@editForm');
+Route::post('/promo', 'PromoController@store');
+Route::post('/promo/{id}/delete', 'PromoController@destroy');

@@ -351,3 +351,37 @@ a:hover {
 .tran-total {
     font-size: 2rem;
 }
+
+.promo-head {
+    background-color: #111d2f;
+}
+
+.head-first {
+    border-radius: 1.3rem 0 0 0;
+}
+
+.head-last {
+    border-radius: 0 1.3rem 0 0;
+}
+
+.promo-head > th {
+    padding: 1rem 0.5rem;
+}
+
+.promo-table {
+    font-size: 1.4rem;
+}
+
+.promo-container {
+    padding: 2rem 10rem;
+}
+
+.promo-body > th {
+    padding: 1rem;
+    border-bottom: 3px solid rgba(82, 82, 82, 0.5);
+    text-align: center;
+}
+
+.action-promo > a {
+    margin-right: 2rem;
+}
