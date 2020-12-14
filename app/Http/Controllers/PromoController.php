@@ -14,7 +14,8 @@ class PromoController extends Controller
      */
     public function index()
     {
-        //
+        $promos = Promo::paginate(10);
+        return view('promo', compact('promos'));
     }
 
     /**
@@ -35,7 +36,17 @@ class PromoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->code = strtoupper($request->code);
+        $rules = [
+            'code' => 'required|unique:promos',
+            'discount' => 'required|numeric|min:1|max:100'
+        ];
+        $request->validate($rules);
+        Promo::insert([
+            "code" => $request->code,
+            "discount" => $request->discount,
+        ]);
+        return redirect()->intended('/promo')->with("message", "Success Created Promo!");
     }
 
     /**
@@ -55,9 +66,15 @@ class PromoController extends Controller
      * @param  \App\Promo  $promo
      * @return \Illuminate\Http\Response
      */
-    public function edit(Promo $promo)
+    public function editForm($id)
     {
-        //
+        $promo = Promo::where('id', $id)->first();
+        return view('promo-form', compact('promo', 'id'));
+    }
+
+    public function addForm()
+    {
+        return view('promo-form');
     }
 
     /**
@@ -67,9 +84,19 @@ class PromoController extends Controller
      * @param  \App\Promo  $promo
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Promo $promo)
+    public function update(Request $request, $id)
     {
-        //
+        $rules = [
+            'code' => 'required|unique:promos,code,' . $id,
+            'discount' => 'required|numeric|min:1|max:100'
+        ];
+        $request->validate($rules);
+        $promo = Promo::where('id', $id)->first();
+        $promo->discount = $request->discount;
+        $promo->code = $request->code;
+        $promo->save();
+
+        return redirect()->intended('/promo')->with("message", "Success Updated Promo!");
     }
 
     /**
@@ -78,8 +105,9 @@ class PromoController extends Controller
      * @param  \App\Promo  $promo
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Promo $promo)
+    public function destroy($id)
     {
-        //
+        Promo::destroy($id);
+        return redirect()->intended('/promo')->with("message", "Success Deleted Promo!");
     }
 }
