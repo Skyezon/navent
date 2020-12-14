@@ -1,8 +1,8 @@
 @extends('base.vendor')
 @section('main')
 @if(session()->has('message'))
-<div class="alert alert-success alert-dismissible">
-    <a class="close" data-dismiss="alert" aria-label="close">&times;</a>
+<div class="alert alert-success alert-green alert-dismissible">
+    <a class="close txt-green" data-dismiss="alert" aria-label="close">&times;</a>
     {{ session()->get('message') }}
 </div>
 @endif
@@ -10,6 +10,10 @@
 <div class="container d-flex justify-content-center flex-column promo-container">
     <div class="products-title">Promo <span class="txt-green">Code</span>
     </div>
+    <a href="/promo/add">
+        <button class="btn submit-btn">Add Promo</button>
+    </a>
+
     <table class="promo-table">
         <tr class="promo-head">
             <th class="head-first text-center">Id</th>

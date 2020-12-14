@@ -39,4 +39,6 @@ Route::get('/transaction', 'TransactionProductController@index');
 Route::get('/promo', 'PromoController@index');
 Route::get('/promo/edit/{id}', 'PromoController@editForm');
 Route::post('/promo', 'PromoController@store');
+Route::get('/promo/add', 'PromoController@addForm');
+Route::post('/promo/{id}', 'PromoController@update');
 Route::post('/promo/{id}/delete', 'PromoController@destroy');
