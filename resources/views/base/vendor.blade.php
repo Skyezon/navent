@@ -29,8 +29,9 @@
                 <li class="nav-item">
                     <a class="nav-link text-light" href="/promo">Promos</a>
                 </li>
+                <!-- if vendor search product, if member search event and category -->
                 <form class="search-bar" action="/" method="GET">
-                    <input type="text" name="query" onkeyup="searchProduct()" class="search-input" id="product-search" placeholder="Search">
+                    <input type="text" name="query" onkeyup="searchEvent()" class="search-input" id="product-search" placeholder="Search">
                     <button class="search-button" type="submit"><i class="fas fa-search"></i></button>
                 </form>
                 <div class="result" id="result">

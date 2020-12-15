@@ -2,12 +2,12 @@
 @section('main')
 
 <div class="text-lg-center add-product-title">My <span class="txt-green">Carts</span></div>
-<div class="d-flex justify-content-center">
+<div class="d-flex justify-content-center event-cart-container">
     @php
     $total = 0;
     @endphp
     @if ($carts->count() > 0)
-    <div class="container d-flex flex-row cart-container">
+    <div class="d-flex flex-row cart-container">
         <div class="cart-left">
             @foreach($carts as $cart)
             @php
@@ -15,16 +15,14 @@
             @endphp
             <div class="container d-flex flex-row">
                 <div>
-                    <a href="/product/{{$cart->product_id}}/detail">
-                        <img class="cart-image" src="{{env('APP_URL')}}:8000/uploads/image/product/{{$cart->image}}" onerror="this.onerror=null;this.src='{{$cart->image}}';">
-                    </a>
+                    <img class="cart-image" src="{{env('APP_URL')}}:8000/uploads/image/event/{{$cart->image}}" onerror="this.onerror=null;this.src='{{$cart->image}}';">
                 </div>
                 <div>
-                    <a href="/product/{{$cart->product_id}}/detail">
+                    <a href="/event/{{$cart->event_id}}/detail">
                         <div class="cart-title txt-green">{{$cart->name}}</div>
                     </a>
                     <div>Rp{{number_format($cart->price, 0, "", ".")}}</div>
-                    <div class="fa fa-shopping-cart"></div> {{$cart->quantity}}
+                    <div class="fa fa-ticket-alt"></div> {{$cart->quantity}}
                 </div>
             </div>
             <hr class="line">
@@ -46,7 +44,7 @@
                         </div>
                         <div class="modal-body">
                             <div><b>Do you want to checkout now?</b></div>
-                            <form action="/cart/checkout" method="POST">
+                            <form action="/cart/event/checkout" method="POST">
                                 {{csrf_field()}}
                                 <button class="btn btn-success" type="submit">
                                     Yes
@@ -67,7 +65,7 @@
         <div class="cart-not-found">
         </div>
         <div class="cart-desc">
-            Looks like there are no items in your cart, Check out more items <a class="txt-green" href="/products"><b>here</b></a> !
+            Looks like there are no items in your cart, Check out more items <a class="txt-green" href="/event"><b>here</b></a> !
         </div>
     </div>
 

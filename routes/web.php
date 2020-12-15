@@ -22,7 +22,6 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-
 Route::get('/products', 'ProductController@index');
 Route::get('/product/search', 'ProductController@search');
 Route::get('/product/add', 'ProductController@addForm');
@@ -37,6 +36,10 @@ Route::post('/cart/product/{id}', 'CartController@store');
 Route::get('/cart', 'CartController@index');
 Route::post('/cart/checkout', 'TransactionProductController@checkout');
 Route::get('/transaction', 'TransactionProductController@index');
+Route::get('/event/cart', 'EventCartController@index');
+
+Route::post('/cart/event/checkout', 'EventCartController@checkout');
+Route::post('/cart/event/{id}', 'EventCartController@store');
 
 Route::get('/promo', 'PromoController@index');
 Route::get('/promo/edit/{id}', 'PromoController@editForm');
@@ -51,6 +54,7 @@ Route::get('/event/organizer/{id}', 'EventController@getEventByOrganizer');
 Route::get('/event/edit/{id}', 'EventController@editForm');
 Route::get('/event/add', 'EventController@addForm');
 Route::post('/event/{id}', 'EventController@update');
+Route::get('/event/{id}/detail', 'EventController@detail');
 Route::post('/event', 'EventController@store');
 Route::get('/event', 'EventController@index');
 Route::get('/event/location', 'EventController@getProvinces');

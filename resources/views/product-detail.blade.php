@@ -16,18 +16,23 @@ $text = $value != null ? "Update Cart": "Add to Cart";
         <div><b>Product description:</b></div>
         {{$product->description}}
         <br /><br />
-        @if($product->stock == 0)
-        <div class="text-danger">Sorry, this product is out of stock</div>
-        @else
-        <form action="/cart/product/{{$product->id}}" method="POST">
-            <div>Number of Products:</div>
-            {{ csrf_field() }}
-            <input type="number" value="{{$value}}" name="quantity">
-            <br /><br />
-            <button type="submit" class="btn btn-success">{{$text}}</button>
-        </form>
-        @endif
+        @if($product->stock <= 0) <div class="text-danger">Sorry, this product is out of stock
     </div>
+    @else
+    <form action="/cart/product/{{$product->id}}" method="POST">
+        <div>Number of Products:</div>
+        {{ csrf_field() }}
+        <input type="number" value="{{$value}}" name="quantity">
+        @error('quantity')
+        <span class="error-message" role="alert">
+            <div class="text-danger">{{ $message }}</div>
+        </span>
+        @enderror
+        <br /><br />
+        <button type="submit" class="btn btn-success">{{$text}}</button>
+    </form>
+    @endif
+</div>
 
 </div>
 @endsection

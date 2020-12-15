@@ -91,24 +91,24 @@
                         <div><b>Product description:</b></div>
                         {{$product->description}}
                         <br /><br />
-                        @if($product->stock == 0)
-                        <div class="text-danger">Sorry, this product is out of stock</div>
-                        @else
-                        <form action="cart/product/{{$product->id}}" method="POST">
-                            <div>Number of Products:</div>
-                            {{ csrf_field() }}
-                            <input type="number" value="{{$value}}" name="quantity">
-                            <br /><br />
-                            <button type="submit" class="btn btn-success">{{$text}}</button>
-                        </form>
-                        @endif
+                        @if($product->stock <= 0) <div class="text-danger">Sorry, this product is out of stock
                     </div>
+                    @else
+                    <form action="cart/product/{{$product->id}}" method="POST">
+                        <div>Number of Products:</div>
+                        {{ csrf_field() }}
+                        <input type="number" value="{{$value}}" name="quantity">
+                        <br /><br />
+                        <button type="submit" class="btn btn-success">{{$text}}</button>
+                    </form>
+                    @endif
                 </div>
             </div>
         </div>
     </div>
+</div>
 
-    @endforeach
+@endforeach
 </div>
 <div class="d-flex justify-content-center">
     {{$products->links()}}

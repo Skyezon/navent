@@ -18,9 +18,13 @@
     @foreach($events as $event)
     <div class="container card-event">
         <div class="d-flex flex-row">
-            <img src="{{$event->image}}" class="event-image">
+            <a href="/event/{{$event->id}}/detail">
+                <img src="{{$event->image}}" class="event-image">
+            </a>
             <div class="event-container">
-                <div class="event-name">{{$event->name}}</div>
+                <a href="/event/{{$event->id}}/detail">
+                    <div class="event-name">{{$event->name}}</div>
+                </a>
                 <div>
                     Organized By: <a href="/organizer/{{$event->organizer_id}}" class="txt-green">
                         <h4>{{$event->organizer_name}}</h4>

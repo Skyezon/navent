@@ -557,3 +557,7 @@ a:hover {
     height: 300px;
     margin-right: 3rem;
 }
+
+.event-cart-container {
+    padding-left: -30rem;
+}

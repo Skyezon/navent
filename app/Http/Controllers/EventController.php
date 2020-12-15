@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Constants\Location;
 use App\Event;
+use App\EventCart;
 use App\EventType;
+use App\Member;
 use App\Organizer;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -168,5 +170,24 @@ class EventController extends Controller
         }
         $event->delete();
         return redirect()->intended('/event')->with("message", "Success Deleted Event!");
+    }
+
+    public function detail($id)
+    {
+        //TODO change member id
+        $carts = EventCart::where('member_id', '1')
+            ->get();
+        $event = Event::selectRaw('events.*, organizers.name AS organizer_name, event_types.name AS type_name')
+            ->join('organizers', 'events.organizer_id', 'organizers.id')
+            ->join('event_types', 'event_types.id', 'events.type_id')
+            ->where('events.id', $id)
+            ->first();
+        foreach ($carts as $cart) {
+            if ($cart->event_id == $event->id) {
+                $event->quantity = $cart->quantity;
+                break;
+            }
+        }
+        return view('event-detail', compact('event'));
     }
 }
