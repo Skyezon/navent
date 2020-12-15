@@ -18,10 +18,14 @@
 <div class="container card-container">
     @foreach($products as $product)
     <div class="card">
-        <img class="card-img-top" src="{{env('APP_URL')}}:8000/uploads/image/product/{{$product->image}}" onerror="this.onerror=null;this.src='{{$product->image}}';">
+        <a href="/product/{{$product->id}}/detail">
+            <img class="card-img-top" src="{{env('APP_URL')}}:8000/uploads/image/product/{{$product->image}}" onerror="this.onerror=null;this.src='{{$product->image}}';">
+        </a>
         <div class="card-body">
             <div class="card-body-left">
-                <h5 class="card-title"><b>{{$product->name}}</b></h5>
+                <a href="/product/{{$product->id}}/detail">
+                    <h5 class="card-title"><b>{{$product->name}}</b></h5>
+                </a>
                 <a href="/products/type/{{$product->type_id}}" class="card-type">{{$product->type_name}}</a>
                 <h3 class="card-text-price">Rp{{$product->price}}</h3>
                 <div class="d-inline"><span class="fa fa-star">
@@ -83,8 +87,8 @@
                     </div>
                     <div class="modal-body">
                         <b>Price: {{$product->price}}</b>
-                        <div><b>Product description:</b></div>
                         <div><b>{{$product->stock}}</b> Stock Left</div>
+                        <div><b>Product description:</b></div>
                         {{$product->description}}
                         <br /><br />
                         @if($product->stock == 0)

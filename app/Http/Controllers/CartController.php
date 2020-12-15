@@ -39,11 +39,21 @@ class CartController extends Controller
         $request->validate($rules);
 
         //TODO add organizer id by auth
-        Cart::insert([
-            "organizer_id" => 1,
-            "product_id" => $id,
-            "quantity" => $request->quantity
-        ]);
+        $prod = Cart::where('product_id', $id)
+            ->where('organizer_id', '1')
+            ->first();
+
+        if ($prod != null) {
+            $prod->quantity = $request->quantity;
+            $prod->save();
+        } else {
+            //TODO add organizer id by auth
+            Cart::insert([
+                "organizer_id" => 1,
+                "product_id" => $id,
+                "quantity" => $request->quantity
+            ]);
+        }
         return redirect()->intended('/products')->with("message", "Success Added Product to Cart!");
     }
 

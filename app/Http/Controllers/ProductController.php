@@ -85,9 +85,19 @@ class ProductController extends Controller
      * @param  \App\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function show(Product $product)
+    public function detail($id)
     {
-        //
+        //TODO Add filter by vendor id by auth
+        $carts = Cart::where('organizer_id', '1')
+            ->get();
+        $product = Product::where('id', $id)->first();
+        foreach ($carts as $cart) {
+            if ($cart->product_id == $product->id) {
+                $product->quantity = $cart->quantity;
+                break;
+            }
+        }
+        return view('product-detail', compact('product'));
     }
 
     /**
@@ -158,5 +168,17 @@ class ProductController extends Controller
         }
         $product->delete();
         return redirect()->intended('/products')->with("message", "Success Deleted Products!");
+    }
+
+    public function search(Request $request)
+    {
+        $query = $request->query('query');
+        $movies = Product::where('name', 'LIKE', '%' . $query . '%')->get();
+        if (strlen($query) == 0 || count($movies) == 0) {
+            return response()->json([
+                'message' => 'Not Found'
+            ]);
+        }
+        return response()->json($movies);
     }
 }
