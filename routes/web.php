@@ -42,3 +42,14 @@ Route::post('/promo', 'PromoController@store');
 Route::get('/promo/add', 'PromoController@addForm');
 Route::post('/promo/{id}', 'PromoController@update');
 Route::post('/promo/{id}/delete', 'PromoController@destroy');
+
+
+//organizer id
+Route::get('/event/organizer/{id}', 'EventController@getEventByOrganizer');
+Route::get('/event/edit/{id}', 'EventController@editForm');
+Route::get('/event/add', 'EventController@addForm');
+Route::post('/event/{id}', 'EventController@update');
+Route::post('/event', 'EventController@store');
+Route::get('/event', 'EventController@index');
+Route::get('/event/location', 'EventController@getProvinces');
+Route::post('/event/{id}/delete', 'EventController@destroy');

@@ -140,7 +140,7 @@ class ProductController extends Controller
         }
         $product->save();
 
-        return redirect()->intended('/products');
+        return redirect()->intended('/products')->with("message", "Success Updated Products!");
     }
 
     /**

@@ -416,3 +416,56 @@ a:hover {
     color: #3ddf4d;
     cursor: pointer;
 }
+
+.card-event {
+    background-color: #111d2f;
+    box-shadow: 2px 2px 2px rgba(29, 29, 29, 0.872);
+    border-radius: 1.5rem;
+    margin: 1rem 0;
+    padding: 2rem;
+}
+
+.event-image {
+    border-radius: 10%;
+    width: 10rem;
+    height: 10rem;
+}
+
+.event-name {
+    font-size: 2rem;
+    color: lavender;
+}
+
+.event-container {
+    margin-left: 3rem;
+}
+
+.event-date {
+    margin-bottom: 1rem;
+}
+
+.event-date > div,
+.event-location > div {
+    font-size: 1.2rem;
+}
+.event-location > span {
+    font-size: 1.7rem;
+    margin-right: 1.2rem;
+}
+
+.event-date > span {
+    font-size: 1.3rem;
+    margin-right: 0.7rem;
+}
+
+::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+}
+
+.event-btn {
+    margin-top: 1rem;
+}
+.event-cat {
+    margin: 1rem 0;
+    font-size: 1rem;
+}
