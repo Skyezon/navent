@@ -14,7 +14,13 @@ class EventTypeController extends Controller
      */
     public function index()
     {
-        //
+        $types = EventType::paginate(10);
+        return view('event-type', compact('types'));
+    }
+
+    public function addForm()
+    {
+        return view('event-type-form');
     }
 
     /**
@@ -35,7 +41,14 @@ class EventTypeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $rules = [
+            'name' => 'required|unique:event_types'
+        ];
+        $request->validate($rules);
+        EventType::insert([
+            "name" => $request->name
+        ]);
+        return redirect()->intended('/event/type')->with("message", "Success Created Event Type!");
     }
 
     /**
@@ -44,9 +57,10 @@ class EventTypeController extends Controller
      * @param  \App\EventType  $eventType
      * @return \Illuminate\Http\Response
      */
-    public function show(EventType $eventType)
+    public function editForm($id)
     {
-        //
+        $type = EventType::where('id', $id)->first();
+        return view('event-type-form', compact('type', 'id'));
     }
 
     /**
@@ -67,9 +81,17 @@ class EventTypeController extends Controller
      * @param  \App\EventType  $eventType
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, EventType $eventType)
+    public function update(Request $request, $id)
     {
-        //
+        $rules = [
+            'name' => 'required|unique:event_types,name,' . $id
+        ];
+        $request->validate($rules);
+        $type = EventType::where('id', $id)->first();
+        $type->name = $request->name;
+        $type->save();
+
+        return redirect()->intended('/event/type')->with("message", "Success Updated Event Type!");
     }
 
     /**
@@ -78,8 +100,9 @@ class EventTypeController extends Controller
      * @param  \App\EventType  $eventType
      * @return \Illuminate\Http\Response
      */
-    public function destroy(EventType $eventType)
+    public function destroy($id)
     {
-        //
+        EventType::destroy($id);
+        return redirect()->intended('/event/type')->with("message", "Success Deleted Event Type!");
     }
 }

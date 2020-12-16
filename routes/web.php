@@ -22,6 +22,13 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
+Route::get('/product/type', 'ProductTypeController@index');
+Route::get('/product/type/edit/{id}', 'ProductTypeController@editForm');
+Route::post('/product/type', 'ProductTypeController@store');
+Route::get('/product/type/add', 'ProductTypeController@addForm');
+Route::post('/product/type/{id}', 'ProductTypeController@update');
+Route::post('/product/type/{id}/delete', 'ProductTypeController@destroy');
+
 Route::get('/products', 'ProductController@index');
 Route::get('/product/search', 'ProductController@search');
 Route::get('/product/add', 'ProductController@addForm');
@@ -48,6 +55,13 @@ Route::get('/promo/add', 'PromoController@addForm');
 Route::post('/promo/{id}', 'PromoController@update');
 Route::post('/promo/{id}/delete', 'PromoController@destroy');
 
+
+Route::get('/event/type', 'EventTypeController@index');
+Route::get('/event/type/edit/{id}', 'EventTypeController@editForm');
+Route::post('/event/type', 'EventTypeController@store');
+Route::get('/event/type/add', 'EventTypeController@addForm');
+Route::post('/event/type/{id}', 'EventTypeController@update');
+Route::post('/event/type/{id}/delete', 'EventTypeController@destroy');
 
 //organizer id
 Route::get('/event/organizer/{id}', 'EventController@getEventByOrganizer');
