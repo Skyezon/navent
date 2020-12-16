@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Constants\Location;
 use App\Event;
+use App\EventCart;
 use App\EventType;
+use App\Member;
 use App\Organizer;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -16,17 +18,21 @@ class EventController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        $selector = $request->query('type_id') != null ? "events.type_id = " .  $request->query('type_id') : "1=1";
         //TODO: get organizer id from auth
         $events = Event::selectRaw('events.*, organizers.name AS organizer_name, event_types.name AS type_name')
             ->join('organizers', 'events.organizer_id', 'organizers.id')
             ->join('event_types', 'event_types.id', 'events.type_id')
             ->where('organizers.id', 1)
+            ->whereRaw($selector)
             ->paginate(10);
 
+        $types = EventType::all();
+
         $organizer = Organizer::where('id', 1)->first();
-        return view('events', compact('events', 'organizer'));
+        return view('events', compact('events', 'organizer', 'types'));
     }
 
     /**
@@ -168,5 +174,38 @@ class EventController extends Controller
         }
         $event->delete();
         return redirect()->intended('/event')->with("message", "Success Deleted Event!");
+    }
+
+    public function detail($id)
+    {
+        //TODO change member id
+        $carts = EventCart::where('member_id', '1')
+            ->get();
+        $event = Event::selectRaw('events.*, organizers.name AS organizer_name, event_types.name AS type_name')
+            ->join('organizers', 'events.organizer_id', 'organizers.id')
+            ->join('event_types', 'event_types.id', 'events.type_id')
+            ->where('events.id', $id)
+            ->first();
+        foreach ($carts as $cart) {
+            if ($cart->event_id == $event->id) {
+                $event->quantity = $cart->quantity;
+                break;
+            }
+        }
+        return view('event-detail', compact('event'));
+    }
+
+    public function search(Request $request)
+    {
+        $query = $request->query('query');
+        $movies = Event::where('name', 'LIKE', '%' . $query . '%')
+            ->whereRaw('date_end > NOW()')
+            ->get();
+        if (strlen($query) == 0 || count($movies) == 0) {
+            return response()->json([
+                'message' => 'Not Found'
+            ]);
+        }
+        return response()->json($movies);
     }
 }

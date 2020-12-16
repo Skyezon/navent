@@ -15,12 +15,16 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        $selector = $request->query('type_id') != null ? "products.type_id = " .  $request->query('type_id') : "1=1";
         //TODO Add filter by vendor id by auth
         $products = Product::selectRaw("products.*, product_types.name AS type_name, product_types.id AS type_id")
             ->join("product_types", "product_types.id", "products.type_id")
+            ->whereRaw($selector)
             ->paginate(9);
+
+        $types = ProductType::all();
 
         //TODO Add filter by vendor id by auth
         $carts = Cart::where('organizer_id', '1')
@@ -33,7 +37,7 @@ class ProductController extends Controller
                 }
             }
         }
-        return view('product', compact('products'));
+        return view('product', compact('products', 'types'));
     }
 
     public function addForm()
@@ -85,9 +89,19 @@ class ProductController extends Controller
      * @param  \App\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function show(Product $product)
+    public function detail($id)
     {
-        //
+        //TODO Add filter by vendor id by auth
+        $carts = Cart::where('organizer_id', '1')
+            ->get();
+        $product = Product::where('id', $id)->first();
+        foreach ($carts as $cart) {
+            if ($cart->product_id == $product->id) {
+                $product->quantity = $cart->quantity;
+                break;
+            }
+        }
+        return view('product-detail', compact('product'));
     }
 
     /**
@@ -158,5 +172,17 @@ class ProductController extends Controller
         }
         $product->delete();
         return redirect()->intended('/products')->with("message", "Success Deleted Products!");
+    }
+
+    public function search(Request $request)
+    {
+        $query = $request->query('query');
+        $movies = Product::where('name', 'LIKE', '%' . $query . '%')->get();
+        if (strlen($query) == 0 || count($movies) == 0) {
+            return response()->json([
+                'message' => 'Not Found'
+            ]);
+        }
+        return response()->json($movies);
     }
 }
