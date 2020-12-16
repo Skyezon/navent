@@ -5,11 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Navent</title>
-    <link href="/css/app.css" rel="stylesheet">
-    <link href="/css/vendor.css" rel="stylesheet">
+    <link href="{{asset('/css/app.css')}}" rel="stylesheet">
+    <link href="{{asset('/css/vendor.css')}}" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
-    <script src="/js/app.js"></script>
-    <script src="/js/index.js"></script>
+    <script src="{{asset('/js/app.js')}}"></script>
 </head>
 
 <body>
@@ -21,13 +20,7 @@
                     <a class="nav-link text-light" href="/products">Products</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-light" href="/cart">Cart</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-light" href="/transaction">Transactions</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-light" href="/promo">Promos</a>
+                    <a class="nav-link text-light" href="#">Pricing</a>
                 </li>
             </ul>
         </div>

@@ -6,3 +6,29 @@
 
 // Bootstrap
 @import "~bootstrap/scss/bootstrap";
+
+//glide
+@import "~@glidejs/glide/src/assets/sass/glide.core";
+@import "~@glidejs/glide/src/assets/sass/glide.theme";
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html,body{
+    height: 100%;
+    background-color: $bg-body;
+    color: $white;
+}
+
+
+.bg{
+    &-navbar{
+        background-color: $bg-navbar;
+    }
+    &-body{
+        background-color: $bg-body;
+    }
+}

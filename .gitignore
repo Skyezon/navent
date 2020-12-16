@@ -12,4 +12,9 @@ npm-debug.log
 yarn-error.log
 
 /public/uploads/*
+<<<<<<< Updated upstream
 !/public/uploads/image/*/.gitignore
+=======
+!/public/uploads/image/product/.gitignore
+.idea
+>>>>>>> Stashed changes
