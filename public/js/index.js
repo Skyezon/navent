@@ -37,7 +37,7 @@ function searchProduct() {
                     <div class="not-found">
                         <div class="not-found-title">Not Found</div>
                         <img src="/assets/not-found.svg"></img>
-                        <div class="not-found-desc">Looks like the product you searched not found, try another one</div>
+                        <div class="not-found-desc">Looks like the <span class="txt-green">product</span> you searched not found, try another one</div>
                     </div>`;
                 } else {
                     for (var i = 0; i < res.length; i++) {
@@ -76,8 +76,7 @@ function searchEvent() {
                     result.innerHTML = `
                     <div class="not-found">
                         <div class="not-found-title">Not Found</div>
-                        <img src="/assets/not-found.svg"></img>
-                        <div class="not-found-desc">Looks like the product you searched not found, try another one</div>
+                        <div class="not-found-desc">Looks like the <span class="txt-green">event</span> you searched not found, try another one</div>
                     </div>`;
                 } else {
                     for (var i = 0; i < res.length; i++) {

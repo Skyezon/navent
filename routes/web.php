@@ -59,3 +59,4 @@ Route::post('/event', 'EventController@store');
 Route::get('/event', 'EventController@index');
 Route::get('/event/location', 'EventController@getProvinces');
 Route::post('/event/{id}/delete', 'EventController@destroy');
+Route::get('/event/search', 'EventController@search');

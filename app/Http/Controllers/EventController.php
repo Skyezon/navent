@@ -194,4 +194,18 @@ class EventController extends Controller
         }
         return view('event-detail', compact('event'));
     }
+
+    public function search(Request $request)
+    {
+        $query = $request->query('query');
+        $movies = Event::where('name', 'LIKE', '%' . $query . '%')
+            ->whereRaw('date_end > NOW()')
+            ->get();
+        if (strlen($query) == 0 || count($movies) == 0) {
+            return response()->json([
+                'message' => 'Not Found'
+            ]);
+        }
+        return response()->json($movies);
+    }
 }

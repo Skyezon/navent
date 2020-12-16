@@ -574,3 +574,7 @@ a:hover {
     font-size: 1.7rem;
     color: white;
 }
+
+.not-found-desc {
+    font-size: 2rem;
+}
