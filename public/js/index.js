@@ -66,7 +66,7 @@ function searchEvent() {
     const query = document.getElementById("product-search").value;
     let result = document.getElementById("result");
     setTimeout(function() {
-        fetch(`http://localhost:8000/product/search?query=${query}`, {
+        fetch(`http://localhost:8000/event/search?query=${query}`, {
             method: "GET"
         })
             .then(e => e.json())
@@ -87,7 +87,7 @@ function searchEvent() {
                         const r = res[i];
                         result.innerHTML += `
                     <div class="item-container">
-                        <a href="/product/${r.id}/detail" class="item d-flex flex-direction-row">
+                        <a href="/event/${r.id}/detail" class="item d-flex flex-direction-row">
                             <img class="item-image" src="${r.image}"></img>
                             <div class="item-detail">
                                 <div class="item-title">${r.name}</div>
@@ -101,3 +101,13 @@ function searchEvent() {
             });
     }, 300);
 }
+
+const changeProductType = () => {
+    const id = document.getElementById("productType").value;
+    window.location = "http://localhost:8000/products?type_id=" + id;
+};
+
+const changeEventType = () => {
+    const id = document.getElementById("eventType").value;
+    window.location = "http://localhost:8000/event?type_id=" + id;
+};

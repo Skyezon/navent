@@ -18,17 +18,21 @@ class EventController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        $selector = $request->query('type_id') != null ? "events.type_id = " .  $request->query('type_id') : "1=1";
         //TODO: get organizer id from auth
         $events = Event::selectRaw('events.*, organizers.name AS organizer_name, event_types.name AS type_name')
             ->join('organizers', 'events.organizer_id', 'organizers.id')
             ->join('event_types', 'event_types.id', 'events.type_id')
             ->where('organizers.id', 1)
+            ->whereRaw($selector)
             ->paginate(10);
 
+        $types = EventType::all();
+
         $organizer = Organizer::where('id', 1)->first();
-        return view('events', compact('events', 'organizer'));
+        return view('events', compact('events', 'organizer', 'types'));
     }
 
     /**

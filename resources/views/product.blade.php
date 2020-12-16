@@ -15,6 +15,32 @@
 @enderror
 <div class="products-title text-center">My <span class="txt-green">Products</span>
 </div>
+<div class="product-type">
+    <div>Filter By Product Type:</div>
+    <select id="productType" onchange="changeProductType()">
+        @foreach($types as $type)
+        @if(isset($_GET['type_id']))
+        @if($_GET['type_id'] == $type->id)
+        <option value="{{$type->id}}" selected>{{$type->name}}</option>
+        @else
+        <option value="{{$type->id}}">{{$type->name}}</option>
+        @endif
+        @else
+        <option value="{{$type->id}}">{{$type->name}}</option>
+        @endif
+        @endforeach
+    </select>
+    <a href="/products">
+        <button class="submit-btn">
+            Reset
+        </button>
+    </a>
+    <a href="/product/add">
+        <button class="btn submit-btn">Add Product</button>
+    </a>
+</div>
+
+
 <div class="container card-container">
     @foreach($products as $product)
     <div class="card">
@@ -26,7 +52,7 @@
                 <a href="/product/{{$product->id}}/detail">
                     <h5 class="card-title"><b>{{$product->name}}</b></h5>
                 </a>
-                <a href="/products/type/{{$product->type_id}}" class="card-type">{{$product->type_name}}</a>
+                <a href="/products?type_id={{$product->type_id}}" class="card-type">{{$product->type_name}}</a>
                 <h3 class="card-text-price">Rp{{$product->price}}</h3>
                 <div class="d-inline"><span class="fa fa-star">
                     </span> {{$product->rating}}</div>

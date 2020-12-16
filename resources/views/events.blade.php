@@ -12,9 +12,31 @@
 <div class="container d-flex justify-content-center flex-column promo-container">
     <div class="products-title text-center">My <span class="txt-green">Events</span>
     </div>
+    <div class="event-type">
+        <div>Filter By Event Type:</div>
+        <select id="eventType" onchange="changeEventType()">
+            @foreach($types as $type)
+            @if(isset($_GET['type_id']))
+            @if($_GET['type_id'] == $type->id)
+            <option value="{{$type->id}}" selected>{{$type->name}}</option>
+            @else
+            <option value="{{$type->id}}">{{$type->name}}</option>
+            @endif
+            @else
+            <option value="{{$type->id}}">{{$type->name}}</option>
+            @endif
+            @endforeach
+        </select>
+        <a href="/event">
+            <button class="submit-btn">
+                Reset
+            </button>
+        </a>
+    </div>
     <a href="/event/add">
         <button class="btn submit-btn">Add Event</button>
     </a>
+
     @foreach($events as $event)
     <div class="container card-event">
         <div class="d-flex flex-row">
@@ -30,7 +52,7 @@
                         <h4>{{$event->organizer_name}}</h4>
                     </a>
                 </div>
-                <div class="event-cat">Category: <a href="/events/type/{{$event->type_id}}" class="card-type">{{$event->type_name}}</a></div>
+                <div class="event-cat">Category: <a href="/event?type_id={{$event->type_id}}" class="card-type">{{$event->type_name}}</a></div>
                 <div class="d-flex flex-row event-date align-items-center">
                     <span class="fa fa-clock"></span>
                     <div>{{Carbon\Carbon::parse($event->date_start)->toDayDateTimeString()}} -

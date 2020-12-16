@@ -538,7 +538,7 @@ a:hover {
 
 .item-price {
     font-size: 1.5rem;
-    color: #f9a828;
+    color: #3ddf4d;
 }
 
 .item-title {
@@ -560,4 +560,17 @@ a:hover {
 
 .event-cart-container {
     padding-left: -30rem;
+}
+
+.product-type {
+    background-color: transparent;
+    font-size: 1.7rem;
+    color: white;
+    margin-left: 5rem;
+}
+
+.event-type {
+    margin-bottom: 2rem;
+    font-size: 1.7rem;
+    color: white;
 }
