@@ -18,13 +18,11 @@ use Illuminate\Support\Facades\Auth;
 
 Auth::routes();
 
-Route::get('/', function (){return route('events');})->name('home');
+Route::get('/', function (){return redirect()->route('events');})->name('home');
 
-
-
-Route::get('/products', 'ProductController@index');
+Route::get('/products', 'ProductController@index')->name('allProducts');
 Route::prefix('product')->group(function (){
-    Route::get('search', 'ProductController@search');
+    Route::get('search', 'ProductController@search')->name('searchProducts');
     Route::get('add', 'ProductController@addForm');
     Route::post('add', 'ProductController@store');
     Route::get('{id}', 'ProductController@editForm');
@@ -35,10 +33,10 @@ Route::prefix('product')->group(function (){
 
 Route::post('/cart/product/{id}', 'CartController@store');
 //TODO add by auth token
-Route::get('/cart', 'CartController@index');
+Route::get('/cart', 'CartController@index')->name('cartProduct');
 Route::post('/cart/checkout', 'TransactionProductController@checkout');
-Route::get('/transaction', 'TransactionProductController@index');
-Route::get('/event/cart', 'EventCartController@index');
+Route::get('/transaction', 'TransactionProductController@index')->name('allTransactions');
+Route::get('/event/cart', 'EventCartController@index')->name('cartEvents');
 
 Route::post('/cart/event/checkout', 'EventCartController@checkout');
 Route::post('/cart/event/{id}', 'EventCartController@store');
@@ -65,6 +63,6 @@ Route::prefix('promo')->group(function (){
         Route::get('/', 'EventController@index')->name('events');
         Route::get('location', 'EventController@getProvinces');
         Route::post('{id}/delete', 'EventController@destroy');
-        Route::get('search', 'EventController@search');
+        Route::get('search', 'EventController@search')->name('searchEvents');
     });
 

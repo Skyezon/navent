@@ -39,6 +39,9 @@
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
                         <!-- Authentication Links -->
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('home') }}">Home</a>
+                        </li>
                         @guest
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
@@ -49,6 +52,36 @@
                                 </li>
                             @endif
                         @else
+
+                            @if(Auth::user()->memberId() != null)
+                                <li class="nav-item">
+                                    <a class="nav-link" href={{route('cartEvents')}}>Event Cart</a>
+                                </li>
+                                <form enctype="multipart/form-data" action="{{route('searchEvents')}}" class="d-flex">
+                                    @csrf
+                                    <input class="form-control me-2" type="search" placeholder="Search events" aria-label="Search">
+                                    <button class="btn btn-outline-success" type="submit">Search</button>
+                                </form>
+                            @elseif(Auth::user()->organizerId() != null)
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{route('allProducts')}}">Products</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{route('cartProduct')}}">Products Cart</a>
+                                </li>
+                                <form enctype="multipart/form-data" action="{{route('searchProducts')}}" class="d-flex">
+                                    @csrf
+                                    <input class="form-control me-2" type="search" placeholder="Search products" aria-label="Search">
+                                    <button class="btn btn-outline-success" type="submit">Search</button>
+                                </form>
+                            @elseif(Auth::user()->vendorId() != null)
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{route('allProducts')}}">Products</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{route('allTransactions')}}">Transaction</a>
+                                </li>
+                            @endif
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }}
@@ -66,6 +99,7 @@
                                     </form>
                                 </div>
                             </li>
+
                         @endguest
                     </ul>
                 </div>
