@@ -80,6 +80,8 @@
                                 <div class="modal-body">
                                     <b>Price: {{$event->price == 0 ? "Free": $event->price}}</b>
                                     <div><b>Slot: {{$event->slot}}</b></div>
+                                    <div><b>Address:</b></div>
+                                    <div>{{$event->address}}</div>
                                     <div><b>Description:</b></div>
                                     {{$event->description}}
                                 </div>

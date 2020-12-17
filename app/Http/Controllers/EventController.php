@@ -51,6 +51,7 @@ class EventController extends Controller
             "city" => 'required',
             'type' => 'required',
             'dateStart' => 'required',
+            'address' => 'required|min:5',
             'dateEnd' => 'required|after_or_equal:dateStart',
             'desc' => 'required|min:5',
             'image' => 'required|mimes:jpg,png,jpeg'
@@ -74,7 +75,8 @@ class EventController extends Controller
             'province' => $request->province,
             'city' => $request->city,
             'price' =>  $request->price,
-            'slot' =>  $request->slot
+            'slot' =>  $request->slot,
+            'address' => $request->address
         ]);
         return redirect()->intended('/event')->with("message", "Success Add Event!");
     }
@@ -129,6 +131,7 @@ class EventController extends Controller
             "city" => 'required',
             'type' => 'required',
             'dateStart' => 'required',
+            'address' => 'required|min:5',
             'dateEnd' => 'required|after_or_equal:dateStart',
             'desc' => 'required|min:5',
             'image' => 'nullable|mimes:jpg,png,jpeg'
@@ -145,6 +148,7 @@ class EventController extends Controller
         $event->date_start = $request->dateStart;
         $event->date_end = $request->dateEnd;
         $event->description = $request->desc;
+        $event->address = $request->address;
         if ($file != null) {
             $filename = $request->name . "." . $file->getClientOriginalExtension();
             $path = "/uploads/image/event/";

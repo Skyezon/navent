@@ -22,6 +22,10 @@ $text = $value != null ? "Update Cart": "Add to Cart";
                 <h4>{{$event->organizer_name}}</h4>
             </a>
         </div>
+        <div>
+            <div>Address:</div>
+            <h3>{{$event->address}}</h3>
+        </div>
         <div class="event-cat">Category: <a href="/events/type/{{$event->type_id}}" class="card-type">{{$event->type_name}}</a></div>
         <div class="d-flex flex-row event-date align-items-center">
             <span class="fa fa-clock"></span>
@@ -53,5 +57,7 @@ $text = $value != null ? "Update Cart": "Add to Cart";
     <button type="submit" class="btn btn-success">{{$text}}</button>
 </form>
 @endif
+<h2>Location</h2>
+<iframe src="https://www.google.com/maps/d/embed?mid=1kwDQeFXAW-Agnlr7bL9exoTE6iACOcvn" width="640" height="480"></iframe>
 </div>
 @endsection

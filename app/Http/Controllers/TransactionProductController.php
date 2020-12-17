@@ -20,8 +20,9 @@ class TransactionProductController extends Controller
     {
         //TODO add organizer id
         // $filter = Auth::user()->role == 1 ? "1=1" : 'transactions.user_id = ' . Auth::user()->id;
-        $results = TransactionProduct::selectRaw('transaction_products.*, transaction_product_details.*')
+        $results = TransactionProduct::selectRaw('transaction_products.*, transaction_product_details.*, organizers.name AS organizer_name')
             ->join('transaction_product_details', 'transaction_product_details.transaction_id', 'transaction_products.id')
+            ->join('organizers', 'organizers.id', 'transaction_products.organizer_id')
             ->whereRaw("transaction_products.organizer_id = 1")
             ->get();
         $transactions = array();
@@ -33,6 +34,7 @@ class TransactionProductController extends Controller
                     "date" => $date->toDayDateTimeString(),
                     "username" => $transaction->username,
                     "status" => $transaction->status,
+                    'organizer_name' => $transaction->organizer_name,
                     "total" => 0,
                     "products" => array()
                 ];
@@ -44,7 +46,13 @@ class TransactionProductController extends Controller
                 "quantity" => $transaction->quantity
             ]);
         }
-        return view('transaction', compact('transactions'));
+        $transactionStatus = array(
+            TransactionStatus::WAITING_CONFIRMATION,
+            TransactionStatus::DELIVERED,
+            TransactionStatus::ARRIVED,
+            TransactionStatus::CLOSED
+        );
+        return view('transaction', compact('transactions', 'transactionStatus'));
     }
 
     /**
@@ -105,9 +113,13 @@ class TransactionProductController extends Controller
      * @param  \App\TransactionProduct  $transactionProduct
      * @return \Illuminate\Http\Response
      */
-    public function show(TransactionProduct $transactionProduct)
+    public function changeTransactionStatus(Request $request, $id)
     {
-        //
+        //if role is Admin
+        $transaction = TransactionProduct::find($id);
+        $transaction->status = $request->status;
+        $transaction->save();
+        return redirect()->intended('/transaction')->with("message", "Success Updated Transaction Status!");
     }
 
     /**
