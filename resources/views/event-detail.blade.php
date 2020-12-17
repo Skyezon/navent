@@ -8,9 +8,7 @@ $text = $value != null ? "Update Cart": "Add to Cart";
     <h5 class="modal-title"><b>{{$event->name}}</b></h5>
 </div>
 <div class="modal-body d-flex flex-direction-row">
-    <a href="/organizer/{{$event->organizer_id}}">
-        <img class="prod-det-image" src="{{env('APP_URL')}}:8000/uploads/image/event/{{$event->image}}" onerror="this.onerror=null;this.src='{{$event->image}}';">
-    </a>
+    <img class="prod-det-image" src="{{env('APP_URL')}}:8000/uploads/image/event/{{$event->image}}" onerror="this.onerror=null;this.src='{{$event->image}}';">
     <div>
         <b>Price: Rp{{$event->price}}</b>
         <div><b>{{$event->slot}}</b> Slot Left</div>
