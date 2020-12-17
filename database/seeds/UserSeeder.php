@@ -17,7 +17,8 @@ class UserSeeder extends Seeder
         $role = [
             Role::MEMBERS,
             Role::ORGANIZER,
-            Role::VENDOR
+            Role::VENDOR,
+            Role::ADMIN
         ];
         for ($j = 0; $j < 9; $j++) {
             User::insert([
