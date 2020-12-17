@@ -43,6 +43,7 @@ Route::post('/cart/product/{id}', 'CartController@store');
 Route::get('/cart', 'CartController@index');
 Route::post('/cart/checkout', 'TransactionProductController@checkout');
 Route::get('/transaction', 'TransactionProductController@index');
+Route::post('/transaction/{id}/status', 'TransactionProductController@changeTransactionStatus');
 Route::get('/event/cart', 'EventCartController@index');
 
 Route::post('/cart/event/checkout', 'EventCartController@checkout');
