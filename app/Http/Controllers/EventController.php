@@ -114,11 +114,6 @@ class EventController extends Controller
         //
     }
 
-    public function detail($id){
-        $data = Event::find($id);
-
-    }
-
     public function detail($id)
     {
         //TODO change member id

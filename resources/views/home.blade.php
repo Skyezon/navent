@@ -33,9 +33,9 @@
                                             <span>Slot : </span>
                                             <span>{{$data->slot}}</span>
                                         </div>
-                                        <div class="btn btn-primary">
+                                        <a href="{{route('eventDetail',$data->id)}}" class="btn btn-primary">
                                             See event details
-                                        </div>
+                                        </a>
                                     </div>
                                 </div>
                             </div>
@@ -72,7 +72,7 @@
                                                 <span>Slot : </span>
                                                 <span>{{$data->slot}}</span>
                                             </div>
-                                            <a class="btn btn-primary" href="">
+                                            <a class="btn btn-primary" href="{{route('eventDetail',$data->id)}}">
                                                 See event details
                                             </a>
                                         </div>
