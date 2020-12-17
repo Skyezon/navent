@@ -8,17 +8,16 @@ const getCities = () => {
     })
         .then(e => e.json())
         .then(function(res) {
-            console.log(res);
             for (var i = 0; i < res.length; i++) {
                 if (i === 0) {
                     result.innerHTML = "";
                 }
                 const r = res[i];
-                console.log(r);
                 result.innerHTML += `
                      <option value="${r}">${r}</option>
                     `;
             }
+            result.innerHTML += `<option value="">Select All Cities</option>`;
         });
 };
 
@@ -103,10 +102,22 @@ function searchEvent() {
 
 const changeProductType = () => {
     const id = document.getElementById("productType").value;
-    window.location = "http://localhost:8000/products?type_id=" + id;
 };
 
 const changeEventType = () => {
     const id = document.getElementById("eventType").value;
-    window.location = "http://localhost:8000/event?type_id=" + id;
+    const urlParams = new URLSearchParams(window.location.search);
+
+    urlParams.set("type_id", id);
+
+    window.location.search = urlParams;
+};
+
+const setLocationParams = () => {
+    const city = document.getElementById("city").value;
+    const province = document.getElementById("province").value;
+    const urlParams = new URLSearchParams(window.location.search);
+    urlParams.set("city", city);
+    urlParams.set("province", province);
+    window.location.search = urlParams;
 };
