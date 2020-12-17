@@ -15,6 +15,7 @@ class MemberController extends Controller
      */
     public function index()
     {
+        //todo change into auth
         $promo = Promo::where('event_members_id', 1)->first();
         return view('member-details', compact('promo'));
     }

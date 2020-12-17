@@ -103,6 +103,9 @@
                     inputCode.value = res.code;
                 } else {
                     const err = document.getElementById("not-found-promo");
+                    if (res.message) {
+                        err.innerText = res.message;
+                    }
                     err.style.display = "block";
                     err.className = "text-danger";
                     const totalTxt = document.getElementById("total");
