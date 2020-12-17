@@ -20,6 +20,8 @@ Route::get('/', function () {
 
 Auth::routes();
 
+Route::get('/member/detail', 'MemberController@index');
+
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/product/type', 'ProductTypeController@index');
@@ -46,6 +48,8 @@ Route::get('/transaction', 'TransactionProductController@index');
 Route::post('/transaction/{id}/status', 'TransactionProductController@changeTransactionStatus');
 Route::get('/event/cart', 'EventCartController@index');
 
+Route::get('/promo/check', 'PromoController@check');
+
 Route::post('/cart/event/checkout', 'EventCartController@checkout');
 Route::post('/cart/event/{id}', 'EventCartController@store');
 
@@ -55,7 +59,6 @@ Route::post('/promo', 'PromoController@store');
 Route::get('/promo/add', 'PromoController@addForm');
 Route::post('/promo/{id}', 'PromoController@update');
 Route::post('/promo/{id}/delete', 'PromoController@destroy');
-
 
 Route::get('/event/type', 'EventTypeController@index');
 Route::get('/event/type/edit/{id}', 'EventTypeController@editForm');

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Promo;
 use Illuminate\Http\Request;
+use Faker\Factory;
 
 class PromoController extends Controller
 {
@@ -49,15 +50,11 @@ class PromoController extends Controller
         return redirect()->intended('/promo')->with("message", "Success Created Promo!");
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Promo  $promo
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Promo $promo)
+    public function check(Request $request)
     {
-        //
+        $name = $request->query('code');
+        $res = Promo::where("code", $name)->first();
+        return response()->json($res);
     }
 
     /**
@@ -109,5 +106,15 @@ class PromoController extends Controller
     {
         Promo::destroy($id);
         return redirect()->intended('/promo')->with("message", "Success Deleted Promo!");
+    }
+
+    public function createReferralCode($userId)
+    {
+        $faker = Factory::create();
+        Promo::insert([
+            "code" => $faker->regexify('([A-Z]{3}[0-9]{2})'),
+            "discount" => 15000,
+            'event_members_id' => $userId
+        ]);
     }
 }

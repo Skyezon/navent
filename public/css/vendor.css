@@ -578,3 +578,7 @@ a:hover {
 .not-found-desc {
     font-size: 2rem;
 }
+
+#not-found-promo {
+    display: none;
+}

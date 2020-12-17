@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Event;
 use App\EventCart;
 use App\Product;
+use App\Promo;
 use App\TransactionEvent;
 use Illuminate\Http\Request;
 
@@ -75,8 +76,10 @@ class EventCartController extends Controller
      * @param  \App\EventCart  $eventCart
      * @return \Illuminate\Http\Response
      */
-    public function checkout()
+    public function checkout(Request $request)
     {
+        $code = Promo::where('promos.code', $request->code)->first();
+        $promoId = $code == null ? null : $code->id;
         //TODO: add member id by auth
         $carts = EventCart::selectRaw("events.*, event_carts.*")
             ->where('member_id', 1)
@@ -89,6 +92,7 @@ class EventCartController extends Controller
                 "member_id" => 1,
                 "event_id" => $cart->event_id,
                 "quantity" => $cart->quantity,
+                "promo_id" => $promoId
             ]);
             $cart->destroy($cart->id);
             $event = Event::where('id', $cart->event_id)->first();
