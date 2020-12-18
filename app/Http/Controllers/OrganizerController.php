@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\OrganizerRequest;
 use App\Organizer;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class OrganizerController extends Controller
 {
@@ -23,9 +26,25 @@ class OrganizerController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(OrganizerRequest $request)
     {
-        //
+
+        $file = $request->file('image');
+        $path = null;
+        if ($file != null) {
+            $filename = $request->name . "." . $file->getClientOriginalExtension();
+            $path = '/uploads/image/organizer/' . $filename;
+        }
+
+        DB::table('organizers')->insert([
+            'user_id' => Auth::user()->id,
+            'name' => $request->name,
+            'phone_number' => $request->phoneNumber,
+            'province' => $request->province,
+            'city' => $request->city,
+            'image' => $path
+        ]);
+        return redirect()->route('home')->with('success','Register as organizer success');
     }
 
     /**

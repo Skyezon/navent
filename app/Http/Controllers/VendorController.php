@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\VendorRequest;
 use App\User;
 use App\Vendor;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class VendorController extends Controller
 {
@@ -23,9 +26,22 @@ class VendorController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        $path = null;
+        $file = $request->file('image');
+        if($file != null){
+            $filename = $request->name . "." . $file->getClientOriginalExtension();
+            $path = '/uploads/image/vendor/' . $filename;
+        }
+        DB::table('vendors')->insert([
+            'user_id' => Auth::user()->id,
+            'phone_number' => $request->phoneNumber,
+            'image' => $path,
+            'province' => $request->province,
+            'city' => $request->city
+        ]);
+        return redirect()->route('home')->with('success','Register as Vendor success');
     }
 
     /**
@@ -34,7 +50,7 @@ class VendorController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(VendorRequest $request)
     {
         //
     }
@@ -56,19 +72,10 @@ class VendorController extends Controller
      * @param  \App\Vendor  $vendor
      * @return \Illuminate\Http\Response
      */
-    public function edit(Request $request)
+    public function edit(VendorRequest $request)
     {
         //ToDo change into id
         $id = 3;
-        $rules = [
-            "name" => 'required|min:5',
-            "password" => 'nullable|min:5',
-            "phone" => 'numeric|min:10',
-            "email" => 'required|unique:users,email,' . $id,
-            'image' => 'nullable|mimes:jpg,png,jpeg'
-        ];
-
-        $request->validate($rules);
         $user = User::where('id', $id)->first();
         $user->email = $request->email;
         if ($request->password != null) {

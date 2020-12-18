@@ -79,16 +79,30 @@ Route::post('/event/type/{id}', 'EventTypeController@update');
 Route::post('/event/type/{id}/delete', 'EventTypeController@destroy');
 
 //organizer id
-    Route::prefix('event')->group(function (){
-        Route::get('organizer/{id}', 'EventController@getEventByOrganizer');
-        Route::get('edit/{id}', 'EventController@editForm');
-        Route::get('add', 'EventController@addForm');
-        Route::post('{id}', 'EventController@update');
-        Route::get('{id}/detail', 'EventController@detail')->name('eventDetail');
-        Route::post('/', 'EventController@store');
-        Route::get('/', 'EventController@index')->name('events');
-        Route::get('location', 'EventController@getProvinces');
-        Route::post('{id}/delete', 'EventController@destroy');
-        Route::get('search', 'EventController@search')->name('searchEvents');
+Route::prefix('event')->group(function (){
+    Route::get('organizer/{id}', 'EventController@getEventByOrganizer');
+    Route::get('edit/{id}', 'EventController@editForm');
+    Route::get('add', 'EventController@addForm');
+    Route::post('{id}', 'EventController@update');
+    Route::get('{id}/detail', 'EventController@detail')->name('eventDetail');
+    Route::post('/', 'EventController@store');
+    Route::get('/', 'EventController@index')->name('events');
+    Route::get('location', 'EventController@getProvinces');
+    Route::post('{id}/delete', 'EventController@destroy');
+    Route::get('search', 'EventController@search')->name('searchEvents');
+});
+
+Route::prefix('role')->middleware('auth')->group(function (){
+    Route::view('choose','regis-role.choose')->name('roleChoose');
+    Route::prefix('form')->group(function (){
+        Route::view('member','regis-role.member')->name('roleFormMember');
+        Route::view('vendor','regis-role.vendor')->name('roleFormVendor');
+        Route::view('organizer','regis-role.organizer')->name('roleFormOrganizer');
     });
+    Route::prefix('regis')->group(function (){
+        Route::post('member','MemberController@create')->name('roleRegisMember');
+        Route::post('vendor','VendorController@create')->name('roleRegisVendor');
+        Route::post('organizer','OrganizerController@create')->name('roleRegisOrganizer');
+    });
+});
 

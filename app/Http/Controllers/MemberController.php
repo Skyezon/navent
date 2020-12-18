@@ -3,12 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Constants\Location;
+use App\Http\Requests\MemberRequest;
 use App\Member;
 use App\Organizer;
 use App\Promo;
 use App\User;
 use App\Vendor;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class MemberController extends Controller
 {
@@ -51,9 +54,14 @@ class MemberController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(MemberRequest $request)
     {
-        //
+        DB::table('event_members')->insert([
+            'user_id' => Auth::user()->id,
+            'name' => $request->name,
+            'phone_number' => $request->phoneNumber,
+        ]);
+        return redirect()->route('home')->with('success','Register as Member success');
     }
 
     /**
@@ -84,18 +92,11 @@ class MemberController extends Controller
      * @param  \App\Member  $member
      * @return \Illuminate\Http\Response
      */
-    public function edit(Request $request)
+    public function edit(MemberRequest $request)
     {
         //ToDo change into user id
         $id = 1;
-        $rules = [
-            "name" => 'required|min:5',
-            "password" => 'nullable|min:5',
-            "phone" => 'numeric|min:10',
-            "email" => 'required|unique:users,email,' . $id
-        ];
 
-        $request->validate($rules);
         $user = User::where('id', $id)->first();
         $user->email = $request->email;
         if ($request->password != null) {
