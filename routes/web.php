@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Auth;
 
 Auth::routes();
 
-Route::get('/', function (){return route('events');})->name('home');
+Route::get('/', function (){return view('event-mail-detail');})->name('home');
 
 
 Route::get('/member/detail', 'MemberController@index');

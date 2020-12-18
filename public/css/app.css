@@ -11082,6 +11082,13 @@ body {
   color: #fff;
 }
 
+.bg-ticket-image {
+  background-image: url(/images/bg-ticket.png?36ee98375b08a7a7641a01284d468456);
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 300px;
+}
+
 .bg-navbar {
   background-color: #161B22;
 }

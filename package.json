@@ -23,6 +23,7 @@
         "vue-template-compiler": "^2.6.12"
     },
     "dependencies": {
-        "@glidejs/glide": "^3.4.1"
+        "@glidejs/glide": "^3.4.1",
+        "rfs": "^9.0.3"
     }
 }
