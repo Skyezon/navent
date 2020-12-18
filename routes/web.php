@@ -22,12 +22,14 @@ Route::get('/', function () {
     return redirect(route('events'));
 })->name('home');
 
+Route::middleware('auth')->group(function (){
+    Route::get('/member/detail', 'MemberController@index');
+    Route::get('/profile/edit', 'MemberController@index');
+    Route::post('/member/edit', 'MemberController@edit');
+    Route::post('/organizer/edit', 'OrganizerController@edit');
+    Route::post('/vendor/edit', 'VendorController@edit');
+});
 
-Route::get('/member/detail', 'MemberController@index');
-Route::get('/profile/edit', 'MemberController@index');
-Route::post('/member/edit', 'MemberController@edit');
-Route::post('/organizer/edit', 'OrganizerController@edit');
-Route::post('/vendor/edit', 'VendorController@edit');
 
 Route::get('/home', 'EventController@index')->name('home');
 
@@ -39,14 +41,16 @@ Route::post('/product/type/{id}', 'ProductTypeController@update');
 Route::post('/product/type/{id}/delete', 'ProductTypeController@destroy');
 
 Route::get('/products', 'ProductController@index')->name('allProducts');
-Route::prefix('product')->group(function () {
+Route::prefix('product')->middleware(['auth','vendor','organizer'])->group(function () {
     Route::get('search', 'ProductController@search')->name('searchProducts');
-    Route::get('add', 'ProductController@addForm');
-    Route::post('add', 'ProductController@store');
-    Route::get('{id}', 'ProductController@editForm');
     Route::get('{id}/detail', 'ProductController@detail');
-    Route::post('{id}', 'ProductController@update');
-    Route::post('{id}/delete', 'ProductController@destroy');
+    Route::middleware('vendor')->group(function (){
+        Route::get('add', 'ProductController@addForm');
+        Route::post('add', 'ProductController@store');
+        Route::get('{id}', 'ProductController@editForm');
+        Route::post('{id}', 'ProductController@update');
+        Route::post('{id}/delete', 'ProductController@destroy');
+    });
 });
 
 Route::post('/cart/product/{id}', 'CartController@store');
