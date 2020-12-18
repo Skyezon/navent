@@ -18,10 +18,14 @@ use Illuminate\Support\Facades\Auth;
 
 Auth::routes();
 
-Route::get('/', function (){return view('event-mail-detail');})->name('home');
+Route::get('/', function (){return redirect(route('events'));})->name('home');
 
 
 Route::get('/member/detail', 'MemberController@index');
+Route::get('/profile/edit', 'MemberController@index');
+Route::post('/member/edit', 'MemberController@edit');
+Route::post('/organizer/edit', 'OrganizerController@edit');
+Route::post('/vendor/edit', 'VendorController@edit');
 
 Route::get('/home', 'HomeController@index')->name('home');
 

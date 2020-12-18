@@ -29,6 +29,35 @@
                 </form>
                 <div class="result" id="result">
                 </div>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Profile
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" data-toggle="modal" data-target="#referral-code">Get Code Referral</a>
+                        <a class="dropdown-item" href="/profile/edit">Edit Profile</a>
+                    </div>
+                    <div class=" modal fade" id="referral-code" tabindex="-1" role="dialog" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title"><b>Your Referral Code</b></h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+
+                                @php
+                                //toDo change into user id
+                                $promo = App\Promo::where('event_members_id', 1)->first();
+                                @endphp
+                                <div class="modal-body">
+                                    Use Promo Code: <h2 class="txt-green">{{$promo->code}}</h2> to get {{$promo->discount}} discount on event ticket and share with your friends!
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
             </ul>
         </div>
     </nav>

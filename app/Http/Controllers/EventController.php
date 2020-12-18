@@ -44,18 +44,25 @@ class EventController extends Controller
     {
         //
         $selector = $request->query('type_id') != null ? "events.type_id = " .  $request->query('type_id') : "1=1";
+        $provinceSelector = $request->query('province') != null ? "events.province = '" . $request->query('province') . "'" : "1=1";
+        $citySelector = $request->query('city') != null && strlen($request->query('city')) != 0 ? "events.city = '" . $request->query('city') . "'" : "1=1";
+
         //TODO: get organizer id from auth
         $events = Event::selectRaw('events.*, organizers.name AS organizer_name, event_types.name AS type_name')
             ->join('organizers', 'events.organizer_id', 'organizers.id')
             ->join('event_types', 'event_types.id', 'events.type_id')
-            ->where('organizers.id', 1)
             ->whereRaw($selector)
+            ->whereRaw($citySelector)
+            ->whereRaw($provinceSelector)
             ->paginate(10);
+
+        $eventTypes = EventType::all();
+        $provinces = array_keys(Location::LOCATION);
 
         $types = EventType::all();
 
         $organizer = Organizer::where('id', 1)->first();
-        return view('events', compact('events', 'organizer', 'types'));
+        return view('events', compact('events', 'organizer', 'types', 'eventTypes', 'provinces'));
     }
 
     /**

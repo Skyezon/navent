@@ -9,9 +9,50 @@
 @endif
 
 
+@php
+$selectedProv = isset($_GET['province']) ? $_GET['province'] : $provinces[0];
+$cities = App\Constants\Location::LOCATION[$selectedProv];
+$selectedCity = isset($_GET['city']) ? $_GET['city'] : null;
+@endphp
+
 <div class="container d-flex justify-content-center flex-column promo-container">
     <div class="products-title text-center">My <span class="txt-green">Events</span>
     </div>
+    <h2>Search by location</h2>
+    <div class="form__group field">
+        <label for="province" class="form__label">Province</label>
+        <select id="province" name="province" onchange="getCities()" class="form__field">
+            @foreach($provinces as $prov)
+            @if($selectedProv == $prov)
+            <option value="{{$prov}}" selected="true">{{$prov}}</option>
+            @else
+            <option value="{{$prov}}">{{$prov}}</option>
+            @endif
+            @endforeach
+            <option value="">Select All Provinces</option>
+        </select>
+    </div>
+    <div class="form__group field">
+        <label for="city" class="form__label">City</label>
+        <select id="city" name="city" class="form__field">
+            @if($cities != null)
+            @foreach($cities as $city)
+            @if($selectedCity == $city)
+            <option value="{{$city}}" selected="true">{{$city}}</option>
+            @else
+            <option value="{{$city}}">{{$city}}</option>
+            @endif
+            @endforeach
+            @endif
+            @if($selectedCity == "")
+            <option value="" selected="true">Select All Cities</option>
+            @else
+            <option value="">Select All Cities</option>
+            @endif
+        </select>
+    </div>
+    <button type="submit" class="btn submit-btn" onclick="setLocationParams()">Search</button>
+
     <div class="event-type">
         <div>Filter By Event Type:</div>
         <select id="eventType" onchange="changeEventType()">
