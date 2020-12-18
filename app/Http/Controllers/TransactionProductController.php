@@ -7,6 +7,7 @@ use App\Constants\TransactionStatus;
 use App\TransactionProduct;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class TransactionProductController extends Controller
@@ -18,12 +19,11 @@ class TransactionProductController extends Controller
      */
     public function index()
     {
-        //TODO add organizer id
         // $filter = Auth::user()->role == 1 ? "1=1" : 'transactions.user_id = ' . Auth::user()->id;
         $results = TransactionProduct::selectRaw('transaction_products.*, transaction_product_details.*, organizers.name AS organizer_name')
             ->join('transaction_product_details', 'transaction_product_details.transaction_id', 'transaction_products.id')
             ->join('organizers', 'organizers.id', 'transaction_products.organizer_id')
-            ->whereRaw("transaction_products.organizer_id = 1")
+            ->whereRaw("transaction_products.organizer_id = ". Auth::user()->organizerId())
             ->get();
         $transactions = array();
         foreach ($results as $transaction) {
@@ -83,15 +83,13 @@ class TransactionProductController extends Controller
      */
     public function checkout(Request $request)
     {
-        //TODO: add organizer id by auth
         $carts = Cart::selectRaw("products.*, carts.*")
-            ->where('organizer_id', 1)
+            ->where('organizer_id', Auth::user()->organizerId())
             ->join('products', 'products.id', 'carts.product_id')
             ->get();
-        //TODO: add organizer id by auth
         $id = TransactionProduct::insertGetId([
             "status" => TransactionStatus::WAITING_CONFIRMATION,
-            "organizer_id" => '1',
+            "organizer_id" => Auth::user()->organizerId(),
         ]);
 
         foreach ($carts as $cart) {

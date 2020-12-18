@@ -6,6 +6,7 @@ use App\Promo;
 use App\TransactionEvent;
 use Illuminate\Http\Request;
 use Faker\Factory;
+use Illuminate\Support\Facades\Auth;
 
 class PromoController extends Controller
 {
@@ -56,9 +57,8 @@ class PromoController extends Controller
         $name = strtoupper($request->query('code'));
         $res = Promo::where("code", $name)->first();
         if ($res != null) {
-            //todo change into auth id
             $transaction = TransactionEvent::where('promo_id', $res->id)
-                ->where('member_id', '1')
+                ->where('member_id', Auth::user()->memberId())
                 ->first();
             if ($transaction != null) {
                 return response()->json([

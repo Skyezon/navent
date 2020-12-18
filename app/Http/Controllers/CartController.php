@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Cart;
 use App\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CartController extends Controller
 {
@@ -15,9 +16,8 @@ class CartController extends Controller
      */
     public function index()
     {
-        //TODO add by id
         $carts = Cart::selectRaw("products.*, carts.*, vendors.name AS vendor_name")
-            ->where('organizer_id', 1)
+            ->where('organizer_id', Auth::user()->vendorId())
             ->join('products', 'products.id', 'carts.product_id')
             ->join('vendors', 'vendors.id', 'products.vendor_id')
             ->get();
@@ -32,6 +32,7 @@ class CartController extends Controller
      */
     public function store(Request $request, $id)
     {
+        //TODO: dd?
         dd($request->code);
         $product = Product::where('id', $id)->first();
         $rules = [
@@ -39,18 +40,16 @@ class CartController extends Controller
         ];
         $request->validate($rules);
 
-        //TODO add organizer id by auth
         $prod = Cart::where('product_id', $id)
-            ->where('organizer_id', '1')
+            ->where('organizer_id', Auth::user()->organizerId())
             ->first();
 
         if ($prod != null) {
             $prod->quantity = $request->quantity;
             $prod->save();
         } else {
-            //TODO add organizer id by auth
             Cart::insert([
-                "organizer_id" => 1,
+                "organizer_id" => Auth::user()->organizerId(),
                 "product_id" => $id,
                 "quantity" => $request->quantity
             ]);

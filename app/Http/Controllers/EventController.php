@@ -11,6 +11,7 @@ use App\Organizer;
 use App\TransactionEvent;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 
@@ -50,7 +51,6 @@ class EventController extends Controller
         $provinceSelector = $request->query('province') != null ? "events.province = '" . $request->query('province') . "'" : "1=1";
         $citySelector = $request->query('city') != null && strlen($request->query('city')) != 0 ? "events.city = '" . $request->query('city') . "'" : "1=1";
 
-        //TODO: get organizer id from auth
         $events = Event::selectRaw('events.*, organizers.name AS organizer_name, event_types.name AS type_name')
             ->join('organizers', 'events.organizer_id', 'organizers.id')
             ->join('event_types', 'event_types.id', 'events.type_id')
@@ -64,7 +64,7 @@ class EventController extends Controller
 
         $types = EventType::all();
 
-        $organizer = Organizer::where('id', 1)->first();
+        $organizer = Organizer::where('id', Auth::user()->organizerId())->first();
         return view('events', compact('events', 'organizer', 'types', 'eventTypes', 'provinces'));
     }
 
@@ -96,9 +96,8 @@ class EventController extends Controller
         $file->move(public_path() . '/uploads/image/event', $filename);
         $filename = '/uploads/image/event/' . $filename;
 
-        //TODO: get organizer id from auth
         Event::insert([
-            "organizer_id" => 1,
+            "organizer_id" => Auth::user()->organizerId(),
             "type_id" => $request->type,
             "name" => $request->name,
             "date_start" => $request->dateStart,
@@ -204,8 +203,7 @@ class EventController extends Controller
 
     public function detail($id)
     {
-        //TODO change member id
-        $carts = EventCart::where('member_id', '1')
+        $carts = EventCart::where('member_id', Auth::user()->memberId())
             ->get();
         $event = Event::selectRaw('events.*, organizers.name AS organizer_name, event_types.name AS type_name')
             ->join('organizers', 'events.organizer_id', 'organizers.id')

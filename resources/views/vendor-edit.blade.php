@@ -67,11 +67,11 @@ $city = $user->city;
             <label for="province" class="form__label">Province</label>
             <select id="province" name="province" onchange="getCities()" class="form__field">
                 @foreach($provinces as $prov)
-                @if($prov == $province)
-                <option value="{{$prov}}" selected="true">{{$prov}}</option>
-                @else
-                <option value="{{$prov}}">{{$prov}}</option>
-                @endif
+                    @if($prov == $province)
+                    <option value="{{$prov}}" selected="true">{{$prov}}</option>
+                    @else
+                    <option value="{{$prov}}">{{$prov}}</option>
+                    @endif
                 @endforeach
             </select>
         </div>

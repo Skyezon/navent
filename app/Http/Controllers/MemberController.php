@@ -22,31 +22,30 @@ class MemberController extends Controller
      */
     public function index()
     {
+            //TODO : need fix
+        if(Auth::user()->role == 'member'){
+            $user = Member::selectRaw('users.email AS email, event_members.*')
+                ->where('user_id', 1)
+                ->join('users', 'users.id', 'event_members.user_id')
+                ->first();
+            return view('member-edit', compact('user'));
+        }elseif (Auth::user()->role == 'organizer'){
+            $user = Organizer::selectRaw('users.email AS email, organizers.*')
+                ->where('user_id', 2)
+                ->join('users', 'users.id', 'organizers.user_id')
+                ->first();
 
-        //TODO change all id to auth
-        //if user is member
-        // $user = Member::selectRaw('users.email AS email, event_members.*')
-        //     ->where('user_id', 1)
-        //     ->join('users', 'users.id', 'event_members.user_id')
-        //     ->first();
-        // return view('member-edit', compact('user'));
+            $provinces = array_keys(Location::LOCATION);
+            return view('organizer-edit', compact('user', 'provinces'));
+        }elseif (Auth::user()->role == 'vendor'){
+            $user = Vendor::selectRaw('users.email AS email, vendors.*')
+                ->where('user_id', 3)
+                ->join('users', 'users.id', 'vendors.user_id')
+                ->first();
+            $provinces = array_keys(Location::LOCATION);
+            return view('vendor-edit', compact('user', 'provinces'));
+        }
 
-        //if user is organizer
-        // $user = Organizer::selectRaw('users.email AS email, organizers.*')
-        //     ->where('user_id', 2)
-        //     ->join('users', 'users.id', 'organizers.user_id')
-        //     ->first();
-
-        // $provinces = array_keys(Location::LOCATION);
-        // return view('organizer-edit', compact('user', 'provinces'));
-
-        //if user is vendor
-        $user = Vendor::selectRaw('users.email AS email, vendors.*')
-            ->where('user_id', 3)
-            ->join('users', 'users.id', 'vendors.user_id')
-            ->first();
-        $provinces = array_keys(Location::LOCATION);
-        return view('vendor-edit', compact('user', 'provinces'));
     }
 
     /**
@@ -94,8 +93,7 @@ class MemberController extends Controller
      */
     public function edit(MemberRequest $request)
     {
-        //ToDo change into user id
-        $id = 1;
+        $id = Auth::user()->memberId();
 
         $user = User::where('id', $id)->first();
         $user->email = $request->email;

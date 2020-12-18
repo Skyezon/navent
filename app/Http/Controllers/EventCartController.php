@@ -8,6 +8,7 @@ use App\Product;
 use App\Promo;
 use App\TransactionEvent;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class EventCartController extends Controller
 {
@@ -18,9 +19,8 @@ class EventCartController extends Controller
      */
     public function index()
     {
-        //TODO change into member id
         $carts = EventCart::selectRaw("events.*, event_carts.*, organizers.id AS organizer_id")
-            ->where('event_carts.member_id', 1)
+            ->where('event_carts.member_id', Auth::user()->memberId())
             ->join('events', 'events.id', 'event_carts.event_id')
             ->join('organizers', 'organizers.id', 'events.organizer_id')
             ->get();
@@ -51,18 +51,18 @@ class EventCartController extends Controller
         ];
         $request->validate($rules);
 
-        //TODO add organizer id by auth
+        //TODO add organizer id by auth... ? member ?
         $ev = EventCart::where('event_id', $id)
-            ->where('member_id', '1')
+            ->where('member_id', Auth::user()->memberId())
             ->first();
 
         if ($ev != null) {
             $ev->quantity = $request->quantity;
             $ev->save();
         } else {
-            //TODO add organizer id by auth
+            //TODO add organizer id by auth ? member ?
             EventCart::insertGetId([
-                "member_id" => 1,
+                "member_id" => Auth::user()->memberId(),
                 "event_id" => $id,
                 "quantity" => $request->quantity
             ]);
@@ -80,16 +80,14 @@ class EventCartController extends Controller
     {
         $code = Promo::where('promos.code', $request->code)->first();
         $promoId = $code == null ? null : $code->id;
-        //TODO: add member id by auth
         $carts = EventCart::selectRaw("events.*, event_carts.*")
-            ->where('member_id', 1)
+            ->where('member_id', Auth::user()->memberId())
             ->join('events', 'events.id', 'event_carts.event_id')
             ->get();
 
-        //TODO: add member id by auth
         foreach ($carts as $cart) {
             $tran = TransactionEvent::create([
-                "member_id" => 1,
+                "member_id" => Auth::user()->memberId(),
                 "event_id" => $cart->event_id,
                 "quantity" => $cart->quantity,
                 "promo_id" => $promoId

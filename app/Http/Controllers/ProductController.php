@@ -7,6 +7,7 @@ use App\Product;
 use App\ProductType;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ProductController extends Controller
 {
@@ -18,7 +19,7 @@ class ProductController extends Controller
     public function index(Request $request)
     {
         $selector = $request->query('type_id') != null ? "products.type_id = " .  $request->query('type_id') : "1=1";
-        //TODO Add filter by vendor id by auth
+        //TODO Add filter by vendor id by auth ???
         $products = Product::selectRaw("products.*, product_types.name AS type_name, product_types.id AS type_id")
             ->join("product_types", "product_types.id", "products.type_id")
             ->whereRaw($selector)
@@ -26,8 +27,7 @@ class ProductController extends Controller
 
         $types = ProductType::all();
 
-        //TODO Add filter by vendor id by auth
-        $carts = Cart::where('organizer_id', '1')
+        $carts = Cart::where('organizer_id', Auth::user()->vendorId())
             ->get();
         foreach ($products as $product) {
             foreach ($carts as $cart) {
@@ -69,7 +69,6 @@ class ProductController extends Controller
         $file->move(public_path() . '/uploads/image/product', $filename);
         $filename = '/uploads/image/product/' . $filename;
 
-        //TODO: get vendor id from auth
         Product::insert([
             "name" => $request->name,
             "price" => $request->price,
@@ -78,7 +77,7 @@ class ProductController extends Controller
             "description" => $request->desc,
             "image" => $filename,
             "type_id" => $request->type,
-            "vendor_id" => 1
+            "vendor_id" => Auth::user()->vendorId()
         ]);
         return redirect()->intended('/products')->with("message", "Success Add Products!");
     }
@@ -91,8 +90,7 @@ class ProductController extends Controller
      */
     public function detail($id)
     {
-        //TODO Add filter by vendor id by auth
-        $carts = Cart::where('organizer_id', '1')
+        $carts = Cart::where('organizer_id', Auth::user()->organizerId())
             ->get();
         $product = Product::where('id', $id)->first();
         foreach ($carts as $cart) {

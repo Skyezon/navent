@@ -77,8 +77,7 @@ class OrganizerController extends Controller
      */
     public function edit(Request $request)
     {
-        //ToDo change into id
-        $id = 2;
+        $id = Auth::user()->organizerId();
         $rules = [
             "name" => 'required|min:5',
             "password" => 'nullable|min:5',

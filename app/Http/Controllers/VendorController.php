@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Constants\Location;
 use App\Http\Requests\VendorRequest;
 use App\User;
 use App\Vendor;
@@ -19,6 +20,11 @@ class VendorController extends Controller
     public function index()
     {
         //
+    }
+
+    public function showVendorRegisForm(){
+        $provinces = array_keys(Location::LOCATION);
+        return view('regis-role.vendor',compact('provinces'));
     }
 
     /**
@@ -41,7 +47,7 @@ class VendorController extends Controller
             'province' => $request->province,
             'city' => $request->city
         ]);
-        return redirect()->route('home')->with('success','Register as Vendor success');
+        return redirect()->route('home')->with('message','Register as Vendor success');
     }
 
     /**
@@ -74,8 +80,7 @@ class VendorController extends Controller
      */
     public function edit(VendorRequest $request)
     {
-        //ToDo change into id
-        $id = 3;
+        $id = Auth::user()->vendorId();
         $user = User::where('id', $id)->first();
         $user->email = $request->email;
         if ($request->password != null) {

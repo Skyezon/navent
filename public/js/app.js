@@ -37474,22 +37474,24 @@ __webpack_require__.r(__webpack_exports__);
 
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
-
-$(document).ready(function () {
-  new _glidejs_glide_dist_glide_min_js__WEBPACK_IMPORTED_MODULE_1___default.a('.glide', {
-    type: 'carousel',
-    perView: 3,
-    focusAt: 'center'
-  }).mount();
-
-  for (var i = 0; i < 3; i++) {
-    var glide = new _glidejs_glide_dist_glide_min_js__WEBPACK_IMPORTED_MODULE_1___default.a(".glidesel-".concat(i), {
-      type: 'carousel',
-      perView: 3,
-      focusAt: 'center'
-    }).mount();
-  }
-}); // new Glide('.glidesel-',{
+ // $(document).ready(() => {
+//
+//     new Glide('.glide',{
+//         type: 'carousel',
+//         perView : 3,
+//         focusAt : 'center',
+//     }).mount()
+//
+//     for (let i = 0; i < 3; i++) {
+//        let glide =  new Glide(`.glidesel-${i}`,{
+//             type: 'carousel',
+//             perView : 3,
+//             focusAt : 'center',
+//         }).mount()
+//     }
+//
+// })
+// new Glide('.glidesel-',{
 //     type: 'carousel',
 //     perView : 3,
 //     focusAt : 'center',

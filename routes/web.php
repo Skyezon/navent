@@ -94,8 +94,7 @@ Route::prefix('event')->group(function () {
     Route::get('search', 'EventController@search')->name('searchEvents');
 });
 
-Route::prefix('role')->middleware('auth')->group(function (){
-    Route::view('choose','regis-role.choose')->name('roleChoose');
+Route::prefix('role')->middleware('guest')->group(function (){
     Route::prefix('form')->group(function (){
         Route::view('member','regis-role.member')->name('roleFormMember');
         Route::view('vendor','regis-role.vendor')->name('roleFormVendor');

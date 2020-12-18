@@ -47,13 +47,14 @@
                                     </button>
                                 </div>
 
-                                @php
-                                //toDo change into user id
-                                $promo = App\Promo::where('event_members_id', 1)->first();
-                                @endphp
-                                <div class="modal-body">
-                                    Use Promo Code: <h2 class="txt-green">{{$promo->code}}</h2> to get {{$promo->discount}} discount on event ticket and share with your friends!
-                                </div>
+                                @if(Auth::check() && Auth::user()->memberId())
+                                    @php
+                                    $promo = App\Promo::where('event_members_id', Auth::user()->memberId())->first();
+                                    @endphp
+                                    <div class="modal-body">
+                                        Use Promo Code: <h2 class="txt-green">{{$promo->code}}</h2> to get {{$promo->discount}} discount on event ticket and share with your friends!
+                                    </div>
+                                @endif
                             </div>
                         </div>
                     </div>
