@@ -5,11 +5,14 @@ namespace App\Http\Controllers;
 use App\Event;
 use App\EventCart;
 use App\EventType;
+use App\Mail\MailEvent;
 use App\Member;
 use App\Organizer;
+use App\TransactionEvent;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 
 class EventController extends Controller
 {
@@ -24,15 +27,15 @@ class EventController extends Controller
         $allEvents->sortBy('date_start');
         $count = 0;
         $datas = collect([]);
-        foreach ($allEvents as $event){
-            if($count == 9){
+        foreach ($allEvents as $event) {
+            if ($count == 9) {
                 break;
             }
             $datas->push($event);
             $count++;
         }
         $types = DB::table('event_types')->take(3)->get();
-        return view('home',compact('datas','types'));
+        return view('home', compact('datas', 'types'));
     }
 
     /**
@@ -117,9 +120,15 @@ class EventController extends Controller
      * @param  \App\Event  $event
      * @return \Illuminate\Http\Response
      */
-    public function show(Event $event)
+    public static function sendMail($id)
     {
-        //
+        $transaction = TransactionEvent::selectRaw('transaction_events.*, events.*, event_members.name AS member_name, users.email AS email')
+            ->where('transaction_events.id', $id)
+            ->join('event_members', 'transaction_events.member_id', 'event_members.id')
+            ->join('events', 'transaction_events.event_id', 'events.id')
+            ->join('users', 'users.id', 'event_members.user_id')
+            ->first();
+        Mail::to($transaction->email)->send(new MailEvent($transaction));
     }
 
     /**
