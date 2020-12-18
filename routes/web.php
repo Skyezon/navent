@@ -18,7 +18,9 @@ use Illuminate\Support\Facades\Auth;
 
 Auth::routes();
 
-Route::get('/', function (){return redirect(route('events'));})->name('home');
+Route::get('/', function () {
+    return redirect(route('events'));
+})->name('home');
 
 
 Route::get('/member/detail', 'MemberController@index');
@@ -27,7 +29,7 @@ Route::post('/member/edit', 'MemberController@edit');
 Route::post('/organizer/edit', 'OrganizerController@edit');
 Route::post('/vendor/edit', 'VendorController@edit');
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/home', 'EventController@index')->name('home');
 
 Route::get('/product/type', 'ProductTypeController@index');
 Route::get('/product/type/edit/{id}', 'ProductTypeController@editForm');
@@ -37,7 +39,7 @@ Route::post('/product/type/{id}', 'ProductTypeController@update');
 Route::post('/product/type/{id}/delete', 'ProductTypeController@destroy');
 
 Route::get('/products', 'ProductController@index')->name('allProducts');
-Route::prefix('product')->group(function (){
+Route::prefix('product')->group(function () {
     Route::get('search', 'ProductController@search')->name('searchProducts');
     Route::get('add', 'ProductController@addForm');
     Route::post('add', 'ProductController@store');
@@ -61,7 +63,7 @@ Route::get('/promo/check', 'PromoController@check');
 Route::post('/cart/event/checkout', 'EventCartController@checkout');
 Route::post('/cart/event/{id}', 'EventCartController@store');
 
-Route::prefix('promo')->group(function (){
+Route::prefix('promo')->group(function () {
     Route::get('/', 'PromoController@index');
     Route::get('edit/{id}', 'PromoController@editForm');
     Route::post('/', 'PromoController@store');
@@ -79,7 +81,7 @@ Route::post('/event/type/{id}', 'EventTypeController@update');
 Route::post('/event/type/{id}/delete', 'EventTypeController@destroy');
 
 //organizer id
-Route::prefix('event')->group(function (){
+Route::prefix('event')->group(function () {
     Route::get('organizer/{id}', 'EventController@getEventByOrganizer');
     Route::get('edit/{id}', 'EventController@editForm');
     Route::get('add', 'EventController@addForm');

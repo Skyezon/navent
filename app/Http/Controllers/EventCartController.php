@@ -61,7 +61,7 @@ class EventCartController extends Controller
             $ev->save();
         } else {
             //TODO add organizer id by auth
-            EventCart::insert([
+            EventCart::insertGetId([
                 "member_id" => 1,
                 "event_id" => $id,
                 "quantity" => $request->quantity
@@ -88,18 +88,21 @@ class EventCartController extends Controller
 
         //TODO: add member id by auth
         foreach ($carts as $cart) {
-            TransactionEvent::insert([
+            $tran = TransactionEvent::create([
                 "member_id" => 1,
                 "event_id" => $cart->event_id,
                 "quantity" => $cart->quantity,
                 "promo_id" => $promoId
             ]);
+            EventController::sendMail($tran->id);
+
             $cart->destroy($cart->id);
             $event = Event::where('id', $cart->event_id)->first();
             $event->slot -= $cart->quantity;
             $event->save();
         }
-        return redirect()->intended('/event')->with("message", "Success Buy Event Tickets!");
+
+        return redirect()->intended('/event')->with("message", "Success Buy Event Tickets, Check your Email for the Ticket!");
     }
 
     /**
