@@ -18,9 +18,7 @@ use Illuminate\Support\Facades\Auth;
 
 Auth::routes();
 
-Route::get('/', function () {
-    return redirect(route('events'));
-})->name('home');
+Route::get('/', 'HomeController@index')->name('home');
 
 Route::middleware('auth')->group(function (){
     Route::get('/member/detail', 'MemberController@index');
@@ -31,7 +29,6 @@ Route::middleware('auth')->group(function (){
 });
 
 
-Route::get('/home', 'EventController@index')->name('home');
 
 Route::get('/product/type', 'ProductTypeController@index');
 Route::get('/product/type/edit/{id}', 'ProductTypeController@editForm');
@@ -41,16 +38,16 @@ Route::post('/product/type/{id}', 'ProductTypeController@update');
 Route::post('/product/type/{id}/delete', 'ProductTypeController@destroy');
 
 Route::get('/products', 'ProductController@index')->name('allProducts');
-Route::prefix('product')->middleware(['auth','vendor','organizer'])->group(function () {
-    Route::get('search', 'ProductController@search')->name('searchProducts');
-    Route::get('{id}/detail', 'ProductController@detail');
-    Route::middleware('vendor')->group(function (){
-        Route::get('add', 'ProductController@addForm');
-        Route::post('add', 'ProductController@store');
-        Route::get('{id}', 'ProductController@editForm');
-        Route::post('{id}', 'ProductController@update');
-        Route::post('{id}/delete', 'ProductController@destroy');
-    });
+
+Route::get('product/search', 'ProductController@search')->name('searchProducts');
+Route::get('product/{id}/detail', 'ProductController@detail');
+Route::get('products/vendor/{id}','ProductController@indexByVendorId')->name('productsByVendor');
+Route::prefix('product')->middleware(['auth','organizer'])->group(function () {
+    Route::get('add', 'ProductController@addForm')->name('productAdd');
+    Route::post('add', 'ProductController@store')->name('productStore');
+    Route::get('{id}', 'ProductController@editForm');
+    Route::post('{id}', 'ProductController@update')->name('productUpdate');
+    Route::post('{id}/delete', 'ProductController@destroy');
 });
 
 Route::post('/cart/product/{id}', 'CartController@store');
@@ -86,7 +83,7 @@ Route::post('/event/type/{id}/delete', 'EventTypeController@destroy');
 
 //organizer id
 Route::prefix('event')->group(function () {
-    Route::get('organizer/{id}', 'EventController@getEventByOrganizer');
+    Route::get('organizer/{id}', 'EventController@getEventByOrganizer')->name('eventsByOrganizer');
     Route::get('edit/{id}', 'EventController@editForm');
     Route::get('add', 'EventController@addForm');
     Route::post('{id}', 'EventController@update');

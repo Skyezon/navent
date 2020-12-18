@@ -23,31 +23,27 @@ class EventController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-//    public function index(Request $request)
-//    {
-//        $allEvents = Event::all();
-//        $allEvents->sortBy('date_start');
-//        $count = 0;
-//        $datas = collect([]);
-//        foreach ($allEvents as $event) {
-//            if ($count == 9) {
-//                break;
-//            }
-//            $datas->push($event);
-//            $count++;
-//        }
-//        $types = DB::table('event_types')->take(3)->get();
-//        return view('home', compact('datas', 'types'));
-//    }
+
 
     public function index(Request $request)
     {
-        $eventTypes = EventType::all();
-        $provinces = array_keys(Location::LOCATION);
+        //TODO: need to read the user role and give data accordingly
         $events = Event::paginate(8);
+        $provinces = array_keys(Location::LOCATION);
+        $eventTypes = EventType::all();
         $types = EventType::all();
         $organizer = Organizer::all();
         return view('events',compact('events', 'organizer', 'types', 'eventTypes', 'provinces'));
+    }
+
+    public function getEventByOrganizer($id){
+        $events = Event::where('organizer_id',$id)->get();
+        $provinces = array_keys(Location::LOCATION);
+        $eventTypes = EventType::all();
+        $types = EventType::all();
+        $organizer = Organizer::find($id);
+        return view('events',compact('events', 'organizer', 'types', 'eventTypes', 'provinces'));
+
     }
 
     /**

@@ -61,7 +61,6 @@
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <a class="dropdown-item" data-toggle="modal" data-target="#referral-code">Get Code Referral</a>
-                                <a class="dropdown-item" href="/profile/edit">Edit Profile</a>
                             </div>
                             <div class=" modal fade" id="referral-code" tabindex="-1" role="dialog" aria-hidden="true">
                                 <div class="modal-dialog" role="document">
@@ -96,9 +95,12 @@
                         </form>
                         <div class="result" id="result">
                         </div>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{route('eventsByOrganizer',Auth::user()->organizerId())}}">Events</a>
+                        </li>
                     @elseif(Auth::user()->vendorId() != null)
                         <li class="nav-item">
-                            <a class="nav-link" href="{{route('allProducts')}}">Products</a>
+                            <a class="nav-link" href="{{route('productsByVendor',Auth::user()->vendorId())}}">Products</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{{route('allTransactions')}}">Transaction</a>
@@ -118,6 +120,8 @@
                         </a>
 
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="/profile/edit">Edit Profile</a>
+
                             <a class="dropdown-item" href="{{ route('logout') }}"
                                onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">

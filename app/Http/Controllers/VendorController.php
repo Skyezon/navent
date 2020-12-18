@@ -64,6 +64,7 @@ class VendorController extends Controller
             'province' => $request->province,
             'city' => $request->city
         ]);
+        Auth::attempt($request->only('email','password'));
         return redirect()->route('home')->with('message','Register as Vendor success');
     }
 

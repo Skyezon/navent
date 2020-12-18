@@ -25,7 +25,7 @@ class MemberController extends Controller
      */
     public function index()
     {
-            //TODO : need fix
+            //TODO : need rfc
         if(Auth::user()->role == 'member'){
             $user = Member::selectRaw('users.email AS email, event_members.*')
                 ->where('user_id', Auth::user()->id)
@@ -83,6 +83,7 @@ class MemberController extends Controller
             'event_members_id' => $newMember->id
         ]);
 
+        Auth::attempt($request->only('email','password'));
 
         return redirect()->route('home')->with('message','Register as Member success');
     }

@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Constants\Role;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -13,7 +15,6 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
     }
 
     /**
@@ -23,6 +24,15 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+
+        if(Auth::check() && Auth::user()->role == Role::VENDOR){
+            return redirect()->route('productsByVendor',Auth::user()->vendorId());
+        }elseif (Auth::check() && Auth::user()->role == Role::ORGANIZER){
+            return redirect()->route('eventsByOrganizer',Auth::user()->organizerId());
+        }
+        else{
+            return redirect()->route('events');
+
+        }
     }
 }

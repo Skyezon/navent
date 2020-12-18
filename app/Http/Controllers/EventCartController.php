@@ -51,7 +51,6 @@ class EventCartController extends Controller
         ];
         $request->validate($rules);
 
-        //TODO add organizer id by auth... ? member ?
         $ev = EventCart::where('event_id', $id)
             ->where('member_id', Auth::user()->memberId())
             ->first();
@@ -60,7 +59,6 @@ class EventCartController extends Controller
             $ev->quantity = $request->quantity;
             $ev->save();
         } else {
-            //TODO add organizer id by auth ? member ?
             EventCart::insertGetId([
                 "member_id" => Auth::user()->memberId(),
                 "event_id" => $id,

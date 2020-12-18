@@ -10,7 +10,7 @@ $desc = isset($product) ? $product->description : null;
 $type = isset($product) ? $product->type_id : $productTypes[0]->id;
 $image = isset($product) ? $product->image : null;
 
-$endpoint = isset($id) ? "/product/".$id : "/product";
+$endpoint = isset($id) ? route('productUpdate',$id) : route('productStore');
 $action = isset($product) ? "Edit" : "Add";
 @endphp
 

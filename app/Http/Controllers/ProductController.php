@@ -19,10 +19,33 @@ class ProductController extends Controller
     public function index(Request $request)
     {
         $selector = $request->query('type_id') != null ? "products.type_id = " .  $request->query('type_id') : "1=1";
-        //TODO Add filter by vendor id by auth ???
         $products = Product::selectRaw("products.*, product_types.name AS type_name, product_types.id AS type_id")
             ->join("product_types", "product_types.id", "products.type_id")
             ->whereRaw($selector)
+            ->paginate(9);
+
+        $types = ProductType::all();
+
+        $carts = Cart::where('organizer_id', Auth::user()->vendorId())
+            ->get();
+        foreach ($products as $product) {
+            foreach ($carts as $cart) {
+                if ($cart->product_id == $product->id) {
+                    $product->quantity = $cart->quantity;
+                    break;
+                }
+            }
+        }
+        return view('product', compact('products', 'types'));
+    }
+
+    public function indexByVendorId(Request $request,$id)
+    {
+        $selector = $request->query('type_id') != null ? "products.type_id = " .  $request->query('type_id') : "1=1";
+        $products = Product::selectRaw("products.*, product_types.name AS type_name, product_types.id AS type_id")
+            ->join("product_types", "product_types.id", "products.type_id")
+            ->whereRaw($selector)
+            ->where('vendor_id',$id)
             ->paginate(9);
 
         $types = ProductType::all();
