@@ -8,6 +8,13 @@
 </div>
 @endif
 
+@if(session()->has('error'))
+    <div class="alert alert-danger alert-dismissible">
+        <a class="close " data-dismiss="alert" aria-label="close">&times;</a>
+        {{ session()->get('error') }}
+    </div>
+@endif
+
 
 @php
 $selectedProv = isset($_GET['province']) ? $_GET['province'] : $provinces[0];
@@ -16,7 +23,7 @@ $selectedCity = isset($_GET['city']) ? $_GET['city'] : null;
 @endphp
 
 <div class="container d-flex justify-content-center flex-column promo-container">
-    <div class="products-title text-center">My <span class="txt-green">Events</span>
+    <div class="products-title text-center">{{Auth::check() && Auth::user()->role == 'organizer' ? 'My' : 'Featured'}} <span class="txt-green">Events</span>
     </div>
     <h2>Search by location</h2>
     <div class="form__group field">
@@ -74,9 +81,11 @@ $selectedCity = isset($_GET['city']) ? $_GET['city'] : null;
             </button>
         </a>
     </div>
+    @if(Auth::check() && Auth::user()->role == 'vendor')
     <a href="/event/add">
         <button class="btn submit-btn">Add Event</button>
     </a>
+    @endif
     @if(count($events) ==0)
     <div class="products-title text-center">Oops, Cannot Find any <span class="txt-green">Events</span>
         <img src="/assets/product-not-found.png">
@@ -129,6 +138,8 @@ $selectedCity = isset($_GET['city']) ? $_GET['city'] : null;
                             </div>
                         </div>
                     </div>
+                    @if(Auth::check() && Auth::user()->role == 'vendor')
+
                     <button class="btn d-flex flex-row prod-edit justify-content-center">
                         <a href="/event/edit/{{$event->id}}">
                             Edit
@@ -137,6 +148,7 @@ $selectedCity = isset($_GET['city']) ? $_GET['city'] : null;
                     <button class="btn d-flex flex-row prod-delete" data-toggle="modal" data-target="#event-delete-modal-{{$event->id}}">
                         Delete
                     </button>
+                    @endif
                     <div class="modal fade" id="event-delete-modal-{{$event->id}}" tabindex="-1" role="dialog" aria-hidden="true">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">

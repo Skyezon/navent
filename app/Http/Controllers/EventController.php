@@ -23,21 +23,31 @@ class EventController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+//    public function index(Request $request)
+//    {
+//        $allEvents = Event::all();
+//        $allEvents->sortBy('date_start');
+//        $count = 0;
+//        $datas = collect([]);
+//        foreach ($allEvents as $event) {
+//            if ($count == 9) {
+//                break;
+//            }
+//            $datas->push($event);
+//            $count++;
+//        }
+//        $types = DB::table('event_types')->take(3)->get();
+//        return view('home', compact('datas', 'types'));
+//    }
+
     public function index(Request $request)
     {
-        $allEvents = Event::all();
-        $allEvents->sortBy('date_start');
-        $count = 0;
-        $datas = collect([]);
-        foreach ($allEvents as $event) {
-            if ($count == 9) {
-                break;
-            }
-            $datas->push($event);
-            $count++;
-        }
-        $types = DB::table('event_types')->take(3)->get();
-        return view('home', compact('datas', 'types'));
+        $eventTypes = EventType::all();
+        $provinces = array_keys(Location::LOCATION);
+        $events = Event::paginate(8);
+        $types = EventType::all();
+        $organizer = Organizer::all();
+        return view('events',compact('events', 'organizer', 'types', 'eventTypes', 'provinces'));
     }
 
     /**

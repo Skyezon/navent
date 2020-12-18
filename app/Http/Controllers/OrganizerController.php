@@ -50,7 +50,7 @@ class OrganizerController extends Controller
             $path = '/uploads/image/organizer/' . $filename;
         }
 
-        DB::table('organizers')->insert([
+        Organizer::insert([
             'user_id' => $newUser->id,
             'name' => $request->name,
             'phone_number' => $request->phone,

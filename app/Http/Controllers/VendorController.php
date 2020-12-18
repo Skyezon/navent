@@ -56,7 +56,7 @@ class VendorController extends Controller
         }
 
 
-        DB::table('vendors')->insert([
+        Vendor::insert([
             'user_id' => $newUser->id,
             'name' => $request->name,
             'phone_number' => $request->phone,
