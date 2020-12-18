@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Constants\Location;
 use App\Member;
+use App\Organizer;
 use App\Promo;
+use App\User;
+use App\Vendor;
 use Illuminate\Http\Request;
 
 class MemberController extends Controller
@@ -15,9 +19,31 @@ class MemberController extends Controller
      */
     public function index()
     {
-        //todo change into auth
-        $promo = Promo::where('event_members_id', 1)->first();
-        return view('member-details', compact('promo'));
+
+        //TODO change all id to auth
+        //if user is member
+        // $user = Member::selectRaw('users.email AS email, event_members.*')
+        //     ->where('user_id', 1)
+        //     ->join('users', 'users.id', 'event_members.user_id')
+        //     ->first();
+        // return view('member-edit', compact('user'));
+
+        //if user is organizer
+        // $user = Organizer::selectRaw('users.email AS email, organizers.*')
+        //     ->where('user_id', 2)
+        //     ->join('users', 'users.id', 'organizers.user_id')
+        //     ->first();
+
+        // $provinces = array_keys(Location::LOCATION);
+        // return view('organizer-edit', compact('user', 'provinces'));
+
+        //if user is vendor
+        $user = Vendor::selectRaw('users.email AS email, vendors.*')
+            ->where('user_id', 3)
+            ->join('users', 'users.id', 'vendors.user_id')
+            ->first();
+        $provinces = array_keys(Location::LOCATION);
+        return view('vendor-edit', compact('user', 'provinces'));
     }
 
     /**
@@ -58,9 +84,31 @@ class MemberController extends Controller
      * @param  \App\Member  $member
      * @return \Illuminate\Http\Response
      */
-    public function edit(Member $member)
+    public function edit(Request $request)
     {
-        //
+        //ToDo change into user id
+        $id = 1;
+        $rules = [
+            "name" => 'required|min:5',
+            "password" => 'nullable|min:5',
+            "phone" => 'numeric|min:10',
+            "email" => 'required|unique:users,email,' . $id
+        ];
+
+        $request->validate($rules);
+        $user = User::where('id', $id)->first();
+        $user->email = $request->email;
+        if ($request->password != null) {
+            $user->password = bcrypt($request->password);
+        }
+        $user->save();
+
+        $member = Member::where('user_id', $id)->first();
+        $member->name = $request->name;
+        $member->phone_number = $request->phone;
+        $member->save();
+
+        return redirect()->intended('/event')->with("message", "Success Updated Profile!");
     }
 
     /**

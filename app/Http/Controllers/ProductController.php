@@ -149,8 +149,8 @@ class ProductController extends Controller
             if (substr($product->image, 0, strlen($path)) == $path) {
                 unlink(public_path() . $product->image);
             }
-            $file->move(public_path() . '/uploads/product', $filename);
-            $product->image = '/uploads/product/' . $filename;
+            $file->move(public_path() . '/uploads/image/product', $filename);
+            $product->image = '/uploads/image/product/' . $filename;
         }
         $product->save();
 
