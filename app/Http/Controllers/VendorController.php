@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Constants\Location;
+use App\Constants\Role;
 use App\Http\Requests\VendorRequest;
 use App\User;
 use App\Vendor;
@@ -41,23 +42,24 @@ class VendorController extends Controller
             'password' => ['required', 'string', 'min:8', 'confirmed'],
             'image' => 'required'
         ]);
+        $newUser = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'role' => Role::VENDOR
+        ]);
         $path = null;
         $file = $request->file('image');
         if($file != null){
             $filename = $request->name . "." . $file->getClientOriginalExtension();
             $path = '/uploads/image/vendor/' . $filename;
         }
-        $newUser = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'role' => 'vendor'
-        ]);
+
 
         DB::table('vendors')->insert([
             'user_id' => $newUser->id,
             'name' => $request->name,
-            'phone_number' => $request->phoneNumber,
+            'phone_number' => $request->phone,
             'image' => $path,
             'province' => $request->province,
             'city' => $request->city

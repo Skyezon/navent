@@ -7,7 +7,7 @@
     @endphp
 
     <div class="add-product-container">
-        <div class="text-lg-center add-product-title">Edit <span class="txt-green">Profile</span>
+        <div class="text-lg-center add-product-title">Register as <span class="txt-green">Vendor</span>
         </div>
         <form class="container" action="{{route('roleRegisVendor')}}" method="POST" enctype="multipart/form-data">
             @csrf
@@ -32,7 +32,7 @@
             @enderror
 
             <div class="form__group field">
-                <input type="input" class="form__field" value="" placeholder="Phone Number" name="phoneNumber" id='phone' />
+                <input type="input" class="form__field" value="" placeholder="Phone Number" name="phone" id='phone' />
                 <label for="phone" class="form__label">Phone Number</label>
             </div>
             @error('phone')

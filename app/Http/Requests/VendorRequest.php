@@ -30,7 +30,6 @@ class VendorRequest extends FormRequest
             "phone" => 'numeric|min:10',
             "email" => 'required|unique:users,email',
             'image' => 'nullable|mimes:jpg,png,jpeg'
-
         ];
     }
 }

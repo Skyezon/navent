@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Constants\Role;
 use App\Http\Requests\OrganizerRequest;
 use App\Organizer;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class OrganizerController extends Controller
 {
@@ -29,6 +31,18 @@ class OrganizerController extends Controller
     public function create(OrganizerRequest $request)
     {
 
+        $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'image' => 'required'
+        ]);
+        $newUser = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'role' => Role::ORGANIZER
+        ]);
         $file = $request->file('image');
         $path = null;
         if ($file != null) {
@@ -37,9 +51,9 @@ class OrganizerController extends Controller
         }
 
         DB::table('organizers')->insert([
-            'user_id' => Auth::user()->id,
+            'user_id' => $newUser->id,
             'name' => $request->name,
-            'phone_number' => $request->phoneNumber,
+            'phone_number' => $request->phone,
             'province' => $request->province,
             'city' => $request->city,
             'image' => $path

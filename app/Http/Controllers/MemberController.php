@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Constants\Location;
+use App\Constants\Role;
 use App\Http\Requests\MemberRequest;
 use App\Member;
 use App\Organizer;
@@ -12,6 +13,7 @@ use App\Vendor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class MemberController extends Controller
 {
@@ -55,11 +57,23 @@ class MemberController extends Controller
      */
     public function create(MemberRequest $request)
     {
-        DB::table('event_members')->insert([
-            'user_id' => Auth::user()->id,
-            'name' => $request->name,
-            'phone_number' => $request->phoneNumber,
+        $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
+        $newUser = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'role' => Role::MEMBERS
+        ]);
+        DB::table('event_members')->insert([
+            'user_id' => $newUser->id,
+            'name' => $request->name,
+            'phone_number' => $request->phone,
+        ]);
+
         return redirect()->route('home')->with('message','Register as Member success');
     }
 
