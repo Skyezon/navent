@@ -20,7 +20,10 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/profile/edit', 'MemberController@edit');
+Route::get('/profile/edit', 'MemberController@index');
+Route::post('/member/edit', 'MemberController@edit');
+Route::post('/organizer/edit', 'OrganizerController@edit');
+Route::post('/vendor/edit', 'VendorController@edit');
 
 Route::get('/home', 'HomeController@index')->name('home');
 
