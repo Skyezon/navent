@@ -9,8 +9,8 @@
     <div class="add-product-container">
         <div class="text-lg-center add-product-title">Edit <span class="txt-green">Profile</span>
         </div>
-        <form class="container" action="/vendor/edit" method="POST" enctype="multipart/form-data">
-            {{csrf_field()}}
+        <form class="container" action="{{route('roleRegisVendor')}}" method="POST" enctype="multipart/form-data">
+            @csrf
             <div class="form__group field">
                 <input type="input" class="form__field" value="" placeholder="Name" name="name" id='name' />
                 <label for="name" class="form__label">Name</label>
@@ -32,7 +32,7 @@
             @enderror
 
             <div class="form__group field">
-                <input type="input" class="form__field" value="" placeholder="Phone Number" name="phone" id='phone' />
+                <input type="input" class="form__field" value="" placeholder="Phone Number" name="phoneNumber" id='phone' />
                 <label for="phone" class="form__label">Phone Number</label>
             </div>
             @error('phone')
@@ -42,8 +42,13 @@
             @enderror
 
             <div class="form__group field">
-                <input type="password" class="form__field" placeholder="New Password" name="password" id='password' />
-                <label for="password" class="form__label">New Password <span class="text-danger">*Optional</span></label>
+                <input type="password" class="form__field" placeholder="Password" name="password" id='password' />
+                <label for="password" class="form__label">Password </label>
+            </div>
+
+            <div class="form__group field">
+                <input id="password-confirm" type="password" name="password_confirmation" placeholder="password confirmation" required autocomplete="new-password" class="form__field">
+                <label for="password-confirm" class="form__label">{{ __('Confirm Password') }}</label>
             </div>
 
             @error('password')

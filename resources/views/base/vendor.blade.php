@@ -9,11 +9,12 @@
     <link href="{{asset('/css/vendor.css')}}" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
     <script src="{{asset('/js/app.js')}}"></script>
+    <script src="{{asset('/js/index.js')}}"></script>
 </head>
 
 <body>
     <nav class="navbar nav navbar-expand-lg">
-        <a class="navbar-brand text-light font-weight-bold" href="#">Navent</a>
+        <a class="navbar-brand text-light font-weight-bold" href="{{route('home')}}">Navent</a>
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
 
             <ul class="navbar-nav align-items-center">

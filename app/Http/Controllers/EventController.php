@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Constants\Location;
 use App\Event;
 use App\EventCart;
 use App\EventType;
@@ -231,5 +232,12 @@ class EventController extends Controller
             ]);
         }
         return response()->json($movies);
+    }
+
+    public function getProvinces(Request $request){
+//        http://localhost:8000/event/location?province=Sumatera%20Barat
+        $query = $request->query('province');
+        $provinces = Location::LOCATION[$query];
+        return response()->json($provinces);
     }
 }

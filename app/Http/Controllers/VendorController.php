@@ -9,6 +9,7 @@ use App\Vendor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class VendorController extends Controller
 {
@@ -32,16 +33,30 @@ class VendorController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request)
+    public function create(VendorRequest $request)
     {
+        $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'image' => 'required'
+        ]);
         $path = null;
         $file = $request->file('image');
         if($file != null){
             $filename = $request->name . "." . $file->getClientOriginalExtension();
             $path = '/uploads/image/vendor/' . $filename;
         }
+        $newUser = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'role' => 'vendor'
+        ]);
+
         DB::table('vendors')->insert([
-            'user_id' => Auth::user()->id,
+            'user_id' => $newUser->id,
+            'name' => $request->name,
             'phone_number' => $request->phoneNumber,
             'image' => $path,
             'province' => $request->province,

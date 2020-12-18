@@ -60,7 +60,7 @@ class MemberController extends Controller
             'name' => $request->name,
             'phone_number' => $request->phoneNumber,
         ]);
-        return redirect()->route('home')->with('success','Register as Member success');
+        return redirect()->route('home')->with('message','Register as Member success');
     }
 
     /**

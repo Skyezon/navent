@@ -44,7 +44,7 @@ class OrganizerController extends Controller
             'city' => $request->city,
             'image' => $path
         ]);
-        return redirect()->route('home')->with('success','Register as organizer success');
+        return redirect()->route('home')->with('message','Register as organizer success');
     }
 
     /**
