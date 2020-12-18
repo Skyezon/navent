@@ -32,6 +32,7 @@ class CartController extends Controller
      */
     public function store(Request $request, $id)
     {
+        dd($request->code);
         $product = Product::where('id', $id)->first();
         $rules = [
             'quantity' => 'required|min:1|lte:' . $product->stock

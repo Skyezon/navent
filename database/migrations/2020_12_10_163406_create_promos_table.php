@@ -17,6 +17,9 @@ class CreatePromosTable extends Migration
             $table->id();
             $table->string('code');
             $table->integer('discount');
+            $table->unsignedBigInteger('event_members_id')->nullable();
+            $table->foreign('event_members_id')->references('id')->on('event_members')
+                ->onDelete('cascade')->onUpdate('cascade')->constrained();
             $table->timestamps();
         });
     }

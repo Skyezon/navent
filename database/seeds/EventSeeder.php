@@ -29,6 +29,7 @@ class EventSeeder extends Seeder
                 "date_start" => $now,
                 "date_end" => $now->addDay(),
                 'image' => $faker->imageUrl(),
+                'address' => $faker->address,
                 'province' => $province,
                 'description' => $faker->paragraph,
                 'city' => $city,

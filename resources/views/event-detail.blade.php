@@ -8,9 +8,7 @@ $text = $value != null ? "Update Cart": "Add to Cart";
     <h5 class="modal-title"><b>{{$event->name}}</b></h5>
 </div>
 <div class="modal-body d-flex flex-direction-row">
-    <a href="/organizer/{{$event->organizer_id}}">
-        <img class="prod-det-image" src="{{env('APP_URL')}}:8000/uploads/image/event/{{$event->image}}" onerror="this.onerror=null;this.src='{{$event->image}}';">
-    </a>
+    <img class="prod-det-image" src="{{env('APP_URL')}}:8000/uploads/image/event/{{$event->image}}" onerror="this.onerror=null;this.src='{{$event->image}}';">
     <div>
         <b>Price: Rp{{$event->price}}</b>
         <div><b>{{$event->slot}}</b> Slot Left</div>
@@ -21,6 +19,10 @@ $text = $value != null ? "Update Cart": "Add to Cart";
             Organized By: <a href="/organizer/{{$event->organizer_id}}" class="txt-green">
                 <h4>{{$event->organizer_name}}</h4>
             </a>
+        </div>
+        <div>
+            <div>Address:</div>
+            <h3>{{$event->address}}</h3>
         </div>
         <div class="event-cat">Category: <a href="/events/type/{{$event->type_id}}" class="card-type">{{$event->type_name}}</a></div>
         <div class="d-flex flex-row event-date align-items-center">
@@ -53,5 +55,7 @@ $text = $value != null ? "Update Cart": "Add to Cart";
     <button type="submit" class="btn btn-success">{{$text}}</button>
 </form>
 @endif
+<h2>Location</h2>
+<iframe src="https://www.google.com/maps/d/embed?mid=1kwDQeFXAW-Agnlr7bL9exoTE6iACOcvn" width="640" height="480"></iframe>
 </div>
 @endsection

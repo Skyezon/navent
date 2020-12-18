@@ -66,7 +66,42 @@ class EventController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $rules = [
+            'name' => 'required|min:5',
+            'slot' => 'required|numeric|min:5',
+            'price' => 'required|min:0',
+            'province' => 'required',
+            "city" => 'required',
+            'type' => 'required',
+            'dateStart' => 'required',
+            'address' => 'required|min:5',
+            'dateEnd' => 'required|after_or_equal:dateStart',
+            'desc' => 'required|min:5',
+            'image' => 'required|mimes:jpg,png,jpeg'
+        ];
+        $request->validate($rules);
+        $file = $request->file('image');
+        $now = Carbon::now();
+        $filename = $request->name . "_" . $now->getTimestamp() . "." . $file->getClientOriginalExtension();
+        $file->move(public_path() . '/uploads/image/event', $filename);
+        $filename = '/uploads/image/event/' . $filename;
+
+        //TODO: get organizer id from auth
+        Event::insert([
+            "organizer_id" => 1,
+            "type_id" => $request->type,
+            "name" => $request->name,
+            "date_start" => $request->dateStart,
+            "date_end" => $request->dateEnd,
+            'image' => $filename,
+            'description' => $request->desc,
+            'province' => $request->province,
+            'city' => $request->city,
+            'price' =>  $request->price,
+            'slot' =>  $request->slot,
+            'address' => $request->address
+        ]);
+        return redirect()->intended('/event')->with("message", "Success Add Event!");
     }
 
     /**
@@ -100,7 +135,44 @@ class EventController extends Controller
      */
     public function update(Request $request, Event $event)
     {
-        //
+        $rules = [
+            'name' => 'required|min:5',
+            'slot' => 'required|numeric|min:5',
+            'price' => 'required|min:0',
+            'province' => 'required',
+            "city" => 'required',
+            'type' => 'required',
+            'dateStart' => 'required',
+            'address' => 'required|min:5',
+            'dateEnd' => 'required|after_or_equal:dateStart',
+            'desc' => 'required|min:5',
+            'image' => 'nullable|mimes:jpg,png,jpeg'
+        ];
+        $request->validate($rules);
+        $file = $request->file('image');
+        $event = Event::where('id', $id)->first();
+        $event->name = $request->name;
+        $event->slot = $request->slot;
+        $event->price = $request->price;
+        $event->province = $request->province;
+        $event->city = $request->city;
+        $event->type_id = $request->type;
+        $event->date_start = $request->dateStart;
+        $event->date_end = $request->dateEnd;
+        $event->description = $request->desc;
+        $event->address = $request->address;
+        if ($file != null) {
+            $filename = $request->name . "." . $file->getClientOriginalExtension();
+            $path = "/uploads/image/event/";
+            if (substr($event->image, 0, strlen($path)) == $path) {
+                unlink(public_path() . $event->image);
+            }
+            $file->move(public_path() . '/uploads/event', $filename);
+            $event->image = '/uploads/event/' . $filename;
+        }
+        $event->save();
+
+        return redirect()->intended('/event')->with("message", "Success Updated Event!");
     }
 
     /**

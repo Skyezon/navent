@@ -6,6 +6,7 @@ $name = isset($event) ? $event->name : null;
 $type = isset($event) ? $event->type : null;
 $price = isset($event) ? $event->price : null;
 $image = isset($event) ? $event->image : null;
+$address = isset($event) ? $event->address : null;
 $province = isset($event) ? $event->province : $provinces[0];
 $cities = App\Constants\Location::LOCATION[$province];
 $dateStart = isset($event) ? date("Y-m-d\TH:i", strtotime($event->date_start )): null;
@@ -113,6 +114,16 @@ $actions = isset($promo) ? "Edit" : "Add";
             </select>
         </div>
         @error('city')
+        <span class="error-message" role="alert">
+            <div class="text-danger">{{ $message }}</div>
+        </span>
+        @enderror
+
+        <div class="form__group field">
+            <input type="input" class="form__field" value="{{$address}}" placeholder="Address" name="address" id='address' />
+            <label for="address" class="form__label">Address</label>
+        </div>
+        @error('address')
         <span class="error-message" role="alert">
             <div class="text-danger">{{ $message }}</div>
         </span>

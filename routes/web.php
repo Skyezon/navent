@@ -21,6 +21,16 @@ Auth::routes();
 Route::get('/', function (){return route('events');})->name('home');
 
 
+Route::get('/member/detail', 'MemberController@index');
+
+Route::get('/home', 'HomeController@index')->name('home');
+
+Route::get('/product/type', 'ProductTypeController@index');
+Route::get('/product/type/edit/{id}', 'ProductTypeController@editForm');
+Route::post('/product/type', 'ProductTypeController@store');
+Route::get('/product/type/add', 'ProductTypeController@addForm');
+Route::post('/product/type/{id}', 'ProductTypeController@update');
+Route::post('/product/type/{id}/delete', 'ProductTypeController@destroy');
 
 Route::get('/products', 'ProductController@index');
 Route::prefix('product')->group(function (){
@@ -38,7 +48,10 @@ Route::post('/cart/product/{id}', 'CartController@store');
 Route::get('/cart', 'CartController@index');
 Route::post('/cart/checkout', 'TransactionProductController@checkout');
 Route::get('/transaction', 'TransactionProductController@index');
+Route::post('/transaction/{id}/status', 'TransactionProductController@changeTransactionStatus');
 Route::get('/event/cart', 'EventCartController@index');
+
+Route::get('/promo/check', 'PromoController@check');
 
 Route::post('/cart/event/checkout', 'EventCartController@checkout');
 Route::post('/cart/event/{id}', 'EventCartController@store');
@@ -53,6 +66,12 @@ Route::prefix('promo')->group(function (){
 });
 
 
+Route::get('/event/type', 'EventTypeController@index');
+Route::get('/event/type/edit/{id}', 'EventTypeController@editForm');
+Route::post('/event/type', 'EventTypeController@store');
+Route::get('/event/type/add', 'EventTypeController@addForm');
+Route::post('/event/type/{id}', 'EventTypeController@update');
+Route::post('/event/type/{id}/delete', 'EventTypeController@destroy');
 
 //organizer id
     Route::prefix('event')->group(function (){
