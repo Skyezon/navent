@@ -28,8 +28,10 @@ class HomeController extends Controller
             return redirect()->route('productsByVendor', Auth::user()->vendorId());
         } elseif (Auth::check() && Auth::user()->role == Role::ORGANIZER) {
             return redirect()->route('eventsByOrganizer', Auth::user()->organizerId());
-        } else {
-            return redirect()->route('events');
+        } elseif (Auth::check() && Auth::user()->role == Role::ADMIN) {
+            return redirect()->route('getAllPromos');
+        }else{
+        return redirect()->route('events');
         }
     }
 }

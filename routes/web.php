@@ -30,7 +30,7 @@ Route::middleware('auth')->group(function () {
 
 
 
-Route::get('/product/type', 'ProductTypeController@index');
+Route::get('/product/type', 'ProductTypeController@index')->name('getAllProductTypes');
 Route::get('/product/type/edit/{id}', 'ProductTypeController@editForm');
 Route::post('/product/type', 'ProductTypeController@store');
 Route::get('/product/type/add', 'ProductTypeController@addForm');
@@ -65,7 +65,7 @@ Route::post('/cart/event/checkout', 'EventCartController@checkout');
 Route::post('/cart/event/{id}', 'EventCartController@store');
 
 Route::prefix('promo')->group(function () {
-    Route::get('/', 'PromoController@index');
+    Route::get('/', 'PromoController@index')->name('getAllPromos');
     Route::get('edit/{id}', 'PromoController@editForm');
     Route::post('/', 'PromoController@store');
     Route::get('add', 'PromoController@addForm');
@@ -74,7 +74,7 @@ Route::prefix('promo')->group(function () {
 });
 
 
-Route::get('/event/type', 'EventTypeController@index');
+Route::get('/event/type', 'EventTypeController@index')->name('getAllEventTypes');
 Route::get('/event/type/edit/{id}', 'EventTypeController@editForm');
 Route::post('/event/type', 'EventTypeController@store');
 Route::get('/event/type/add', 'EventTypeController@addForm');
