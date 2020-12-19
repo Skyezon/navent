@@ -86,7 +86,10 @@
                     <a class="nav-link" href="{{route('allProducts')}}">Products</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{route('cartProduct')}}">Products Cart</a>
+                    <a class="nav-link" href="{{route('cartProduct')}}">Cart</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/transaction">Transaction</a>
                 </li>
                 <!-- if vendor search product, if member search event and category -->
                 <form class="search-bar" action="/" method="GET">
@@ -116,15 +119,15 @@
                 <div class="result" id="result">
                 </div>
                 @else
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{route('getAllEventTypes')}}">Event types</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{route('getAllPromos')}}">Promo</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{route('getAllProductTypes')}}">Product types</a>
-                        </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{route('getAllEventTypes')}}">Event types</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{route('getAllPromos')}}">Promo</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{route('getAllProductTypes')}}">Product types</a>
+                </li>
                 @endif
                 <li class="nav-item dropdown">
                     <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>

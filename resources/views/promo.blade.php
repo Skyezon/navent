@@ -26,7 +26,7 @@
         <tr class="promo-body">
             <th>{{$promo->id}}</th>
             <th>{{$promo->code}}</th>
-            <th>{{$promo->discount}}%</th>
+            <th>Rp{{$promo->discount}}</th>
             <th>
                 <div class="d-flex flex-row align-items-center justify-content-center action-promo">
                     <a href="/promo/edit/{{$promo->id}}"><button class="btn prod-edit">Edit</button></a>

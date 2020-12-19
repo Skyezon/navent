@@ -17,7 +17,7 @@ class CartController extends Controller
     public function index()
     {
         $carts = Cart::selectRaw("products.*, carts.*, vendors.name AS vendor_name")
-            ->where('organizer_id', Auth::user()->vendorId())
+            ->where('organizer_id', 1)
             ->join('products', 'products.id', 'carts.product_id')
             ->join('vendors', 'vendors.id', 'products.vendor_id')
             ->get();
@@ -32,8 +32,6 @@ class CartController extends Controller
      */
     public function store(Request $request, $id)
     {
-        //TODO: dd?
-        dd($request->code);
         $product = Product::where('id', $id)->first();
         $rules = [
             'quantity' => 'required|min:1|lte:' . $product->stock
@@ -41,7 +39,7 @@ class CartController extends Controller
         $request->validate($rules);
 
         $prod = Cart::where('product_id', $id)
-            ->where('organizer_id', Auth::user()->organizerId())
+            ->where('organizer_id', 1)
             ->first();
 
         if ($prod != null) {
@@ -49,7 +47,7 @@ class CartController extends Controller
             $prod->save();
         } else {
             Cart::insert([
-                "organizer_id" => Auth::user()->organizerId(),
+                "organizer_id" => 1,
                 "product_id" => $id,
                 "quantity" => $request->quantity
             ]);

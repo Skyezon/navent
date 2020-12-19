@@ -19,11 +19,11 @@ class TransactionProductController extends Controller
      */
     public function index()
     {
-        // $filter = Auth::user()->role == 1 ? "1=1" : 'transactions.user_id = ' . Auth::user()->id;
+        $filter = Auth::user()->role == 1 ? "1=1" : 'transaction_products.organizer_id = ' . 1;
         $results = TransactionProduct::selectRaw('transaction_products.*, transaction_product_details.*, organizers.name AS organizer_name')
             ->join('transaction_product_details', 'transaction_product_details.transaction_id', 'transaction_products.id')
             ->join('organizers', 'organizers.id', 'transaction_products.organizer_id')
-            ->whereRaw("transaction_products.organizer_id = ". Auth::user()->organizerId())
+            ->whereRaw($filter)
             ->get();
         $transactions = array();
         foreach ($results as $transaction) {
