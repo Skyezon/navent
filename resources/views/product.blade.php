@@ -31,7 +31,7 @@
         @endforeach
     </select>
     <a href="/products">
-        <button class="submit-btn">
+        <button class="btn submit-btn">
             Reset
         </button>
     </a>

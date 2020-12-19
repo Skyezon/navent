@@ -24,15 +24,12 @@ class HomeController extends Controller
      */
     public function index()
     {
-
-        if(Auth::check() && Auth::user()->role == Role::VENDOR){
-            return redirect()->route('productsByVendor',Auth::user()->vendorId());
-        }elseif (Auth::check() && Auth::user()->role == Role::ORGANIZER){
-            return redirect()->route('eventsByOrganizer',Auth::user()->organizerId());
-        }
-        else{
+        if (Auth::check() && Auth::user()->role == Role::VENDOR) {
+            return redirect()->route('productsByVendor', Auth::user()->vendorId());
+        } elseif (Auth::check() && Auth::user()->role == Role::ORGANIZER) {
+            return redirect()->route('eventsByOrganizer', Auth::user()->organizerId());
+        } else {
             return redirect()->route('events');
-
         }
     }
 }

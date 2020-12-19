@@ -20,7 +20,7 @@ Auth::routes();
 
 Route::get('/', 'HomeController@index')->name('home');
 
-Route::middleware('auth')->group(function (){
+Route::middleware('auth')->group(function () {
     Route::get('/member/detail', 'MemberController@index');
     Route::get('/profile/edit', 'MemberController@index');
     Route::post('/member/edit', 'MemberController@edit');
@@ -41,8 +41,8 @@ Route::get('/products', 'ProductController@index')->name('allProducts');
 
 Route::get('product/search', 'ProductController@search')->name('searchProducts');
 Route::get('product/{id}/detail', 'ProductController@detail');
-Route::get('products/vendor/{id}','ProductController@indexByVendorId')->name('productsByVendor');
-Route::prefix('product')->middleware(['auth','organizer'])->group(function () {
+Route::get('products/vendor/{id}', 'ProductController@indexByVendorId')->name('productsByVendor');
+Route::prefix('product')->middleware(['auth', 'organizer'])->group(function () {
     Route::get('add', 'ProductController@addForm')->name('productAdd');
     Route::post('add', 'ProductController@store')->name('productStore');
     Route::get('{id}', 'ProductController@editForm');
@@ -95,16 +95,15 @@ Route::prefix('event')->group(function () {
     Route::get('search', 'EventController@search')->name('searchEvents');
 });
 
-Route::prefix('role')->middleware('guest')->group(function (){
-    Route::prefix('form')->group(function (){
-        Route::view('member','regis-role.member')->name('roleFormMember');
-        Route::view('vendor','regis-role.vendor')->name('roleFormVendor');
-        Route::view('organizer','regis-role.organizer')->name('roleFormOrganizer');
+Route::prefix('role')->middleware('guest')->group(function () {
+    Route::prefix('form')->group(function () {
+        Route::view('member', 'regis-role.member')->name('roleFormMember');
+        Route::view('vendor', 'regis-role.vendor')->name('roleFormVendor');
+        Route::view('organizer', 'regis-role.organizer')->name('roleFormOrganizer');
     });
-    Route::prefix('regis')->group(function (){
-        Route::post('member','MemberController@create')->name('roleRegisMember');
-        Route::post('vendor','VendorController@create')->name('roleRegisVendor');
-        Route::post('organizer','OrganizerController@create')->name('roleRegisOrganizer');
+    Route::prefix('regis')->group(function () {
+        Route::post('member', 'MemberController@create')->name('roleRegisMember');
+        Route::post('vendor', 'VendorController@create')->name('roleRegisVendor');
+        Route::post('organizer', 'OrganizerController@create')->name('roleRegisOrganizer');
     });
 });
-

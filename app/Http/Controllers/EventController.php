@@ -24,26 +24,43 @@ class EventController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-
-    public function index(Request $request)
+    public function getEventByOrganizer(Request $request, $id)
     {
-        //TODO: need to read the user role and give data accordingly
-        $events = Event::paginate(8);
-        $provinces = array_keys(Location::LOCATION);
+        $selector = $request->query('type_id') != null ? "events.type_id = " .  $request->query('type_id') : "1=1";
+        $provinceSelector = $request->query('province') != null ? "events.province = '" . $request->query('province') . "'" : "1=1";
+        $citySelector = $request->query('city') != null && strlen($request->query('city')) != 0 ? "events.city = '" . $request->query('city') . "'" : "1=1";
+
+        $events = Event::selectRaw('events.*, organizers.name AS organizer_name, event_types.name AS type_name')
+            ->join('organizers', 'events.organizer_id', 'organizers.id')
+            ->join('event_types', 'event_types.id', 'events.type_id')
+            ->where('organizers.id', $id)
+            ->whereRaw($selector)
+            ->whereRaw($citySelector)
+            ->whereRaw($provinceSelector)
+            ->paginate(10);
+
         $eventTypes = EventType::all();
+        $provinces = array_keys(Location::LOCATION);
+
         $types = EventType::all();
-        $organizer = Organizer::all();
-        return view('events',compact('events', 'organizer', 'types', 'eventTypes', 'provinces'));
+
+        $organizer = Organizer::where('id', Auth::user()->organizerId())->first();
+        return view('events', compact('events', 'organizer', 'types', 'eventTypes', 'provinces'));
     }
 
-    public function getEventByOrganizer($id){
-        $events = Event::where('organizer_id',$id)->get();
-        $provinces = array_keys(Location::LOCATION);
-        $eventTypes = EventType::all();
+    public function addForm()
+    {
         $types = EventType::all();
-        $organizer = Organizer::find($id);
-        return view('events',compact('events', 'organizer', 'types', 'eventTypes', 'provinces'));
+        $provinces = array_keys(Location::LOCATION);
+        return view('event-form', compact('types', 'provinces'));
+    }
 
+    public function editForm($id)
+    {
+        $types = EventType::all();
+        $event = Event::where('id', $id)->first();
+        $provinces = array_keys(Location::LOCATION);
+        return view('event-form', compact('types', 'provinces', 'event', 'id'));
     }
 
     /**
@@ -51,9 +68,10 @@ class EventController extends Controller
      *
      * @return \Illuminate\Http\Responhoe
      */
-    public function create(Request $request)
+    public function index(Request $request)
     {
         //
+        $organizerSelector = Auth::user()->organizerId() != null ? "organizers.id = " . Auth::user()->organizerId() : "1=1";
         $selector = $request->query('type_id') != null ? "events.type_id = " .  $request->query('type_id') : "1=1";
         $provinceSelector = $request->query('province') != null ? "events.province = '" . $request->query('province') . "'" : "1=1";
         $citySelector = $request->query('city') != null && strlen($request->query('city')) != 0 ? "events.city = '" . $request->query('city') . "'" : "1=1";
@@ -64,6 +82,7 @@ class EventController extends Controller
             ->whereRaw($selector)
             ->whereRaw($citySelector)
             ->whereRaw($provinceSelector)
+            ->whereRaw($organizerSelector)
             ->paginate(10);
 
         $eventTypes = EventType::all();
@@ -155,7 +174,7 @@ class EventController extends Controller
      * @param  \App\Event  $event
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Event $event)
+    public function update(Request $request, $id)
     {
         $rules = [
             'name' => 'required|min:5',
@@ -203,9 +222,15 @@ class EventController extends Controller
      * @param  \App\Event  $event
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Event $event)
+    public function destroy($id)
     {
-        //
+        $event = Event::where('id', $id)->first();
+        $path = "/uploads/image/event/";
+        if (substr($event->image, 0, strlen($path)) == $path) {
+            unlink(public_path() . $event->image);
+        }
+        $event->delete();
+        return redirect()->intended('/event')->with("message", "Success Deleted Event!");
     }
 
     public function detail($id)
@@ -240,8 +265,9 @@ class EventController extends Controller
         return response()->json($movies);
     }
 
-    public function getProvinces(Request $request){
-//        http://localhost:8000/event/location?province=Sumatera%20Barat
+    public function getProvinces(Request $request)
+    {
+        //        http://localhost:8000/event/location?province=Sumatera%20Barat
         $query = $request->query('province');
         $provinces = Location::LOCATION[$query];
         return response()->json($provinces);

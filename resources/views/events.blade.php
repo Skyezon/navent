@@ -9,10 +9,10 @@
 @endif
 
 @if(session()->has('error'))
-    <div class="alert alert-danger alert-dismissible">
-        <a class="close " data-dismiss="alert" aria-label="close">&times;</a>
-        {{ session()->get('error') }}
-    </div>
+<div class="alert alert-danger alert-dismissible">
+    <a class="close " data-dismiss="alert" aria-label="close">&times;</a>
+    {{ session()->get('error') }}
+</div>
 @endif
 
 
@@ -76,7 +76,7 @@ $selectedCity = isset($_GET['city']) ? $_GET['city'] : null;
             @endforeach
         </select>
         <a href="/event">
-            <button class="submit-btn">
+            <button class="btn submit-btn">
                 Reset
             </button>
         </a>
@@ -138,7 +138,7 @@ $selectedCity = isset($_GET['city']) ? $_GET['city'] : null;
                             </div>
                         </div>
                     </div>
-                    @if(Auth::check() && Auth::user()->role == 'vendor')
+                    @if(Auth::check() && Auth::user()->role == 'organizer')
 
                     <button class="btn d-flex flex-row prod-edit justify-content-center">
                         <a href="/event/edit/{{$event->id}}">
