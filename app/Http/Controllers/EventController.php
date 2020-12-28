@@ -70,8 +70,11 @@ class EventController extends Controller
      */
     public function index(Request $request)
     {
-        //
-        $organizerSelector = Auth::user()->organizerId() != null ? "organizers.id = " . Auth::user()->organizerId() : "1=1";
+        if (Auth::user() == null) {
+            $organizerSelector =  "1=1";
+        } else {
+            $organizerSelector = Auth::user()->organizerId() != null ? "organizers.id = " . Auth::user()->organizerId() : "1=1";
+        }
         $selector = $request->query('type_id') != null ? "events.type_id = " .  $request->query('type_id') : "1=1";
         $provinceSelector = $request->query('province') != null ? "events.province = '" . $request->query('province') . "'" : "1=1";
         $citySelector = $request->query('city') != null && strlen($request->query('city')) != 0 ? "events.city = '" . $request->query('city') . "'" : "1=1";
@@ -90,7 +93,7 @@ class EventController extends Controller
 
         $types = EventType::all();
 
-        $organizer = Organizer::where('id', Auth::user()->organizerId())->first();
+        $organizer = Organizer::where('id', 1)->first();
         return view('events', compact('events', 'organizer', 'types', 'eventTypes', 'provinces'));
     }
 

@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Auth;
 
 Auth::routes();
 
-Route::get('/', 'HomeController@index')->name('home');
+Route::get('/home', 'HomeController@index')->name('home');
 
 Route::middleware('auth')->group(function () {
     Route::get('/member/detail', 'MemberController@index');
@@ -27,8 +27,6 @@ Route::middleware('auth')->group(function () {
     Route::post('/organizer/edit', 'OrganizerController@edit');
     Route::post('/vendor/edit', 'VendorController@edit');
 });
-
-
 
 Route::get('/product/type', 'ProductTypeController@index')->name('getAllProductTypes');
 Route::get('/product/type/edit/{id}', 'ProductTypeController@editForm');
@@ -39,16 +37,19 @@ Route::post('/product/type/{id}/delete', 'ProductTypeController@destroy');
 
 Route::get('/products', 'ProductController@index')->name('allProducts');
 
+
 Route::get('product/search', 'ProductController@search')->name('searchProducts');
 Route::get('product/{id}/detail', 'ProductController@detail');
 Route::get('products/vendor/{id}', 'ProductController@indexByVendorId')->name('productsByVendor');
-Route::prefix('product')->middleware(['auth', 'organizer'])->group(function () {
-    Route::get('add', 'ProductController@addForm')->name('productAdd');
+
+Route::prefix('product')->group(function () {
+    Route::get('/add', 'ProductController@addForm')->name('productAdd');
     Route::post('add', 'ProductController@store')->name('productStore');
     Route::get('{id}', 'ProductController@editForm');
     Route::post('{id}', 'ProductController@update')->name('productUpdate');
     Route::post('{id}/delete', 'ProductController@destroy');
 });
+
 
 Route::post('/cart/product/{id}', 'CartController@store');
 //TODO add by auth token

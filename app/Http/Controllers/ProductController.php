@@ -39,13 +39,13 @@ class ProductController extends Controller
         return view('product', compact('products', 'types'));
     }
 
-    public function indexByVendorId(Request $request,$id)
+    public function indexByVendorId(Request $request, $id)
     {
         $selector = $request->query('type_id') != null ? "products.type_id = " .  $request->query('type_id') : "1=1";
         $products = Product::selectRaw("products.*, product_types.name AS type_name, product_types.id AS type_id")
             ->join("product_types", "product_types.id", "products.type_id")
             ->whereRaw($selector)
-            ->where('vendor_id',$id)
+            ->where('vendor_id', $id)
             ->paginate(9);
 
         $types = ProductType::all();

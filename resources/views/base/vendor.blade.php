@@ -46,7 +46,7 @@
 
                 @if(Auth::user()->memberId() != null)
                 <li class="nav-item">
-                    <a class="nav-link" href={{route('cartEvents')}}>Event Cart</a>
+                    <a class="nav-link" href={{route('cartEvents')}}>Cart</a>
                 </li>
                 <!-- if vendor search product, if member search event and category -->
                 <form class="search-bar" action="/" method="GET">
@@ -75,7 +75,7 @@
                                 $promo = App\Promo::where('event_members_id', Auth::user()->memberId())->first();
                                 @endphp
                                 <div class="modal-body">
-                                    Use Promo Code: <h2 class="txt-green">strtoupper({{$promo->code}})</h2> to get {{$promo->discount}} discount on event ticket and share with your friends!
+                                    Use Promo Code: <h2 class="txt-green">{{strtoupper($promo->code)}}</h2> to get {{$promo->discount}} discount on event ticket and share with your friends!
                                 </div>
                             </div>
                         </div>

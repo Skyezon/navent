@@ -31,9 +31,11 @@ $status = array(
             @php
             $total = number_format($transaction['total'], 0, "", ".");
             @endphp
+            @if(Auth::user()->organizerId() == null)
             <button type="button" class="btn submit-btn" data-toggle="modal" data-target="#transaction-modal-{{$transaction['id']}}">
                 Change Transaction Status
             </button>
+            @endif
             <div class="text-right tran-total">Total: <div>Rp<span class="txt-green"><b>{{$total}}</b></span></div>
             </div>
             <div>Transaction By: <b>{{$transaction['organizer_name']}}</b> at {{$transaction['date']}}</div>

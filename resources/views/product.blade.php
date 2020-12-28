@@ -35,7 +35,7 @@
             Reset
         </button>
     </a>
-    <a href="{{route('productAdd')}}">
+    <a href="/product/add">
         <button class="btn submit-btn">Add Product</button>
     </a>
 </div>
